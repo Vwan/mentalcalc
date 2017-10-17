@@ -1,0 +1,31 @@
+<html>
+<head>
+  <title> 心算强化训练 </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link type="text/css" href="{{url_for('static',filename='bootstrap/css/bootstrap.min.css')}}" rel="stylesheet"/>
+  <link type="text/css" href="{{url_for('static',filename='twitter/css/typeaheadjs.css')}}" rel="stylesheet"/>
+  <!-- <link type="text/css" href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/> -->
+  <link type="text/css" href="{{url_for('static',filename='custom/css/app.css')}}" rel="stylesheet"/>
+
+    {% block script %}
+    {% endblock %}
+</head>
+<body>
+
+    {% block header %}
+    {% endblock %}
+
+  {% block modal_login %}
+  {% endblock %}
+
+  {% block modal_register %}
+  {% endblock %}
+
+  {% block body %}
+  {% endblock %}
+
+  {% block footer %}
+  {% endblock %}
+
+</body>
+</html>

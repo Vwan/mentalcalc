@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+
+[packages]
+
+"dj-database-url" = "*"
+django = "*"
+gunicorn = "*"
+"psycopg2" = "*"
+whitenoise = "*"
+requests = "*"
+flask = "*"
+flask_sqlalchemy = "*"
+jinja2 = "*"
+flask_wtf = "*"
+wtforms = "*"
+
+[requires]
+python_version = "3.6"

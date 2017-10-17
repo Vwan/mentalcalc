@@ -1,0 +1,306 @@
+{% extends "base.html" %}
+
+{% block script %}
+    <script type=text/javascript>
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+
+  </script>
+
+  <script src="{{url_for('static',filename='jquery/js/js.cookie.js')}}"></script>
+  <script src="{{url_for('static',filename='jquery/js/jquery.min.js')}}"></script>
+  <script src="{{url_for('static',filename='bootstrap/js/bootstrap.min.js')}}"></script>
+  <!-- <script src="{{url_for('static',filename='jquery/js/jquery.js')}}"></script> -->
+  <script src="{{url_for('static',filename='twitter/js/typeahead.bundle.js')}}"></script>
+  <script src="{{url_for('static',filename='custom/js/app.js')}}"></script>
+  <script type="text/javascript">
+  $(document).ready(function(){
+    $("#btnLogin").click(function () {
+      $(".result").text("")
+     $("#login-modal").dialog({modal:true});
+  });
+
+    $("#btnRegister").click(function () {
+      $(".result").text("")
+     $("#register-modal").dialog({modal:true});
+  });
+
+    $(function() {
+      username_in_cookie = Cookies.get('username');
+      if (username_in_cookie){
+      $("#btnLogin").text("Welcome " + username_in_cookie)
+    }
+  })
+
+  })
+
+$(document).ready(function(){
+  $('#login').click(function(){
+        $.ajax({
+            url: '/login',
+            type: "POST",
+            dataType: 'json',
+            data: $("#login_form").serialize()
+          }).done( function(data) {
+            console.log(data)
+                  if (data.success == true) { //if your response have 'status' key
+                   alert("Welcome" + data.username +", redicting you...", 2)
+                   $(function() {
+                          // $.session.set("username", data.username);
+                        Cookies.set("username", data.username)
+                        });
+                   window.location.href = "/"
+                } else {
+                  message = ""
+                  if (data.message instanceof Object){
+                    $.each(data.message, function(index, element) {
+                        message += element + "<br>"
+                      });
+                  }
+                  else{
+                    message = data.message
+                  }
+                  $(".result").html('<label class="text-danger"><i class="glyphicon glyphicon-exclamation-sign"> '+message + '</i></label>');
+
+              }
+            })
+        });
+})
+
+$(document).ready(function(){
+  $('#register').click(function(){
+        $.ajax({
+            url: '/register',
+            type: "POST",
+            dataType: 'json',
+            data: $("#register_form").serialize()
+          }).done( function(data) {
+                if (data.success == true) { //if your response have 'status' key
+                   alert("Registered Successfully, Please login", 2)
+                   $(function() {
+                      $("#regsiter-modal").dialog({modal:false});
+                        });
+                   $(function() {
+                      $("#login-modal").dialog({modal:true});
+                        });
+                } else {
+                  message = ""
+                  if (data.message instanceof Object){
+                    $.each(data.message, function(index, element) {
+                        message += element + "<br>"
+                      });
+                  }
+                  else{
+                    message = data.message
+                  }
+                  $(".result").html('<label class="text-danger"><i class="glyphicon glyphicon-exclamation-sign"> '+message + '</i></label>');
+
+              }
+            })
+        });
+})
+
+$(document).ready(function(){
+  $('#start').click(function(e){
+    e.preventDefault()
+      $('#actual_result_add').val("")
+        $.ajax({
+            url: '/add/rule/1/count_of_numbers/2',
+            type: "POST",
+            dataType: 'json'
+          }).done( function(data) {
+            console.log(data)
+                  if (data.success == true) { //if your response have 'status' key
+                   console.log(data.formula)
+                   $('#formula_add').text(data.formula + "=")
+
+                   $('#add').click(function(e){
+                     actual_result = $('#actual_result_add').val()
+                     console.log(actual_result)
+                     console.log(data.expected_result)
+                     e.preventDefault()
+                     var history_add = ""
+                     var history_tag = "#history_add"
+                     var number = 1 + Math.floor(Math.random() * 6);
+                     if (actual_result == data.expected_result){
+                       $("#results_add").html('<font color="Green"> Correct！</font>');
+                       var tag = '<font color="Green">' + data.formula + "=" + actual_result + '--------- Correct！</font><br>'
+                      console.log(tag)
+                        $("<div id="+actual_result+"_"+number+">" + tag +"</div>").insertBefore(history_tag)
+                        history_tag = "#"+actual_result+"_"+number
+                        console.log("susscess ---" + history_tag)
+                        $('#start').click()
+                     }
+                     else{
+                       $("#results_add").html('<font color="Red"> Sorry, Incorrect, please retry!</font>');
+                       var tag = '<font color="Red">' + data.formula + "=" + actual_result + '--------- InCorrect！</font><br>'
+                      console.log(tag)
+                        $("<div id="+actual_result+"_"+number+">" + tag +"</div>").insertBefore(history_tag)
+                        history_tag = "#"+actual_result+"_"+number
+                        console.log("fail ---" + history_tag)
+
+                    }
+
+                })
+              } else {
+                  message = ""
+                  if (data.message instanceof Object){
+                    $.each(data.message, function(index, element) {
+                        message += element + "<br>"
+                      });
+                  }
+                  else{
+                    message = data.message
+                  }
+                  $(".result").html('<label class="text-danger"><i class="glyphicon glyphicon-exclamation-sign"> '+message + '</i></label>');
+
+              }
+            })
+        });
+})
+
+  </script>
+
+{% endblock %}
+
+{% block modal_register %}
+    <!-- Start Modal -->
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" xmlns="http://www.w3.org/1999/html">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="">Sign In</h4>
+          </div>
+          <form id="login_form" role="form" class="form-horizontal" method="post">
+            <div class="modal-body">
+              <div class="form-group">
+                {{login_form.hidden_tag()}}
+                {{login_form.csrf_token }}
+                {{login_form.username.label}} {{login_form.username(size=50)}}
+                {{login_form.password.label}} {{login_form.password(size=50)}}
+                {{login_form.remember_me.label}} {{login_form.remember_me}}
+              </div>
+              </div>
+
+            <div class="modal-footer">
+              <div class="col-md-6">
+                <input type="button" value="Login" class="btn btn-default" id="login"/>
+                <input type="submit" value="Close" class="btn btn-default" data-dismiss="modal"/>
+              </div>
+              <label class="result"/></br>
+            </div>
+          </form>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+  </div>
+    <!-- End Modal -->
+           {% endblock %}
+
+           {% block modal_login %}
+               <!-- Start Modal -->
+               <div class="modal fade" id="register-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" xmlns="http://www.w3.org/1999/html">
+                 <div class="modal-dialog">
+                   <div class="modal-content">
+                     <div class="modal-header">
+                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                       <h4 class="modal-title" id="">Register</h4>
+                     </div>
+                     <form id="register_form" role="form" class="form-horizontal" method="post">
+                       <div class="modal-body">
+                         <div class="form-group">
+                           {{ register_form.csrf_token }}
+                           {{register_form.username.label}} {{register_form.username(size=50)}}
+                           {{register_form.password.label}} {{register_form.password(size=50)}}
+                           {{register_form.confirm.label}} {{register_form.confirm}}
+                         </div>
+                         </div>
+
+                       <div class="modal-footer">
+                         <div class="col-md-6">
+                           <input type="button" value="Register" class="btn btn-default" id="register"/>
+                           <input type="submit" value="Close" class="btn btn-default" data-dismiss="modal"/>
+                         </div>
+                         <label class="result"/></br>
+                       </div>
+                     </form>
+                 </div><!-- /.modal-content -->
+               </div><!-- /.modal -->
+             </div>
+               <!-- End Modal -->
+                      {% endblock %}
+
+{% block header %}
+  <div class="navbar navbar-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="brand" target="_blank" href="">心算强化训练</a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li class="">
+                            <a href="" target="_blank">About</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nav-collapse collapse" align="right">
+
+                        <ul class="nav">
+                            <li class="login">
+                              <a id="btnLogin" href="#login-modal" data-toggle="modal" title="Login"></i>Login</a>
+                            </li>
+                        </ul>
+                        <ul class="nav">
+                            <li class="register">
+                              <a id="btnRegister" href="#register-modal" data-toggle="modal" title="Register"></i>Register</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block body %}
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span2" align="center">
+        <p></p>
+      </div>
+      <div class="span12">
+        <div class="row">
+          <div class="col-md-6" id="left-panel"></div>
+          <div class="col-md-6" id="center-panel" vertical-align="baseline">
+            <form id='add_form' class="form-inline">
+              <h1><legend>Addition</legend></h1>
+              <input id="start" class="btn btn-primary" type="submit" name="start" value="Start">
+              <div class="form-group">
+                <label class="label-primary" id="formula_add" for="add"></label>
+                <input class="typeahead" id="actual_result_add" name="add" placeholder="" autocomplete='off' autofocus value="" >
+                <input id="add" class="btn btn-primary" type="button" name="add" value="Submit">
+
+              </div>
+              <div id="results_add" >
+                <!-- style="display:none"> -->
+                </div>
+              </form>
+              <h4>Histories: </h4>
+        <div id="history_add"> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block footer %}
+  <div class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+              <div class="navbar-inner">
+  <div class="container">
+  <div class="navbar-text pull-left">Copyright @2017 Flask Application</div></div></div></div>
+{% endblock %}
