@@ -1,14 +1,71 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <title> 心算强化训练 </title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link type="text/css" href="{{url_for('static',filename='bootstrap/css/bootstrap.min.css')}}" rel="stylesheet"/>
+  <!-- <link type="text/css" href="{{url_for('static',filename='bootstrap/css/bootstrap.min.css')}}" rel="stylesheet"/> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link type="text/css" href="{{url_for('static',filename='twitter/css/typeaheadjs.css')}}" rel="stylesheet"/>
   <!-- <link type="text/css" href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/> -->
   <link type="text/css" href="{{url_for('static',filename='custom/css/app.css')}}" rel="stylesheet"/>
 
     {% block script %}
     {% endblock %}
+    <style>
+      /* Remove the navbar's default margin-bottom and rounded borders */
+      .navbar {
+        margin-bottom: 0;
+        border-radius: 0;
+        background-color: Green;
+        color: white;
+      }
+
+      /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+      row.content {height: 450px}
+      #content {
+          background: white;
+          /*width: 672px;*/
+          float: center;
+          /*margin-right: 20px;*/
+      }
+      #nav, #content, #sidebar {
+          margin-bottom: -9999px;
+          padding-bottom: 9999px;
+      }
+      /* Set gray background color and 100% height */
+      .sidenav {
+        padding-top: 20px;
+        background-color: #f1f1f1;
+        height: 100%;
+      }
+
+      /* Set black background color, white text and some padding */
+      footer {
+        background-color: Green;
+        color: white;
+        padding: 15px;
+      }
+
+      .container-fluid {
+        min-height: 100%;
+        overflow: hidden;
+      }
+      /* On small screens, set height to 'auto' for sidenav and grid */
+      @media screen and (max-width: 767px) {
+        .sidenav {
+          height: auto;
+          padding: 15px;
+        }
+        .row.content {height:auto;}
+      }
+      .specific-class .td {
+    width: 50%;
+    background: white;
+    /*rgba(0,0,0,.2);*/
+}
+.t { display: table; height: 100%; width: 100%; }
+.td { display: table-cell; vertical-align: middle; height: 100%; }
+    </style>
 </head>
 <body>
 

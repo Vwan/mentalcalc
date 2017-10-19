@@ -41,7 +41,7 @@ def add(rule_id, count_of_numbers):
         formula += f"{x} + "
     print(formula, "------")
     print(expected_result)
-    data = {'success':True, 'status': True , "formula": formula.rstrip("+"), "expected_result":expected_result,
+    data = {'success':True, 'status': True , "formula": formula.rstrip("+ "), "expected_result":expected_result,
               'message': "", 'ContentType':'application/json'}
     print(data)
     #return jsonify(data=data)

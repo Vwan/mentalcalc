@@ -53,7 +53,7 @@ def divide_(*args):
 def generate_numbers_for_addition(rule_id=1, count_of_numbers=2, max_digits=2):
     numbers_list = []
     for i in range(count_of_numbers):
-        number = randint(0, 10 ** max_digits)
+        number = randint(11, 10 ** max_digits)
         numbers_list.append(number)
     print(numbers_list)
     return numbers_list
