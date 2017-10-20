@@ -5,25 +5,25 @@ from flask_sqlalchemy import SQLAlchemy
 
 from init import db
 
-class Calculator(db.Model):
-    __tablename__ = 'weather_info'
+class Rule(db.Model):
+    __tablename__ = 'rules'
     id = db.Column(db.Integer, primary_key=True)
-    city = db.Column(db.String(80))
-    date = db.Column(db.String(120))
-    weather = db.Column(db.String(120))
-    wind = db.Column(db.String(120))
-    temperature = db.Column(db.String(120))
+    calc_type = db.Column(db.String(80))
+    rule_id = db.Column(db.String(120))
+    rule_desc = db.Column(db.String(120))
+    digits = db.Column(db.String(120))
+    count_of_numbers = db.Column(db.String(120))
     last_updated_on = db.Column(db.String(120))
-    queried_by = db.Column(db.String(120))
+    #user_id = db.Column(db.String(120))
 
-    def __init__(self, items):
-        self.city = items['city']
-        self.date = items['date']
-        self.weather = items['weather']
-        self.wind = items['wind']
-        self.temperature = items['temperature']
-        self.last_updated_on = items['last_updated_on']
-        self.queried_by = items['queried_by']
+    def __init__(self, calc_type, rule_id, rule_desc, digits, count_of_numbers, last_updated_on):
+        self.calc_type = calc_type
+        self.rule_id = rule_id
+        self.rule_desc = rule_desc
+        self.digits = digits
+        self.count_of_numbers = count_of_numbers
+        self.last_updated_on = last_updated_on
+        #self.user_id = items['user_id']
 
     def as_dict(self):
         return {col.name: getattr(self, col.name) for col in self.__table__.columns}

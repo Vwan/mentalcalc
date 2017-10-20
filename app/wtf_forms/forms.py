@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, BooleanField, PasswordField
-from wtforms.validators import Required, EqualTo, InputRequired
+from wtforms import StringField, BooleanField, PasswordField, SelectField
+from wtforms.validators import Required, EqualTo, InputRequired, Optional
 
 class LoginForm(FlaskForm):
     username = StringField("User Name", validators=[Required(message="Username cannot be empty")])
@@ -14,7 +14,14 @@ class RegisterForm(FlaskForm):
                             EqualTo('confirm', message="Password must match")])
     confirm = PasswordField("Repeat Password")
 
-class WeatherForm(FlaskForm):
-    city = StringField("City", validators=[InputRequired()])
+digits_list = range(2, 10)
+rules = {
+"A1":"多退少补法 - 自左向右计算"
+}
+count_of_numbers = range(2, 10)
+class SetupForm(FlaskForm):
+    digits = SelectField(u"Select Digits", [Optional()], choices=[(f, f) for f in digits_list])
+    rule = SelectField(u"Select Rule", [Optional()], choices=[(k + ":" + v, k + ":" + v) for k, v in rules.items()])
+    count_of_numbers = SelectField(u"Select count of numbers", [Optional()], choices=[(k, k) for k in count_of_numbers])
     class Meta:
         csrf = False

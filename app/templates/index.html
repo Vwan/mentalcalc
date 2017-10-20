@@ -42,30 +42,54 @@
 {% endblock %}
 {% block body %}
 <div class="container-fluid text-center">
+
   <div class="row-fluid">
     <div id="nav" class="col-lg-2">
-      <div>
-        <a  id="start_add"  href="#"> <div class="well">
-          <!-- <a id="start_add" href="#"> -->
-            +
-        </div></a>
-      </div>  <div>
-          <a  id="start_add"  href="#"> <div class="well">
-            <!-- <a id="start_add" href="#"> -->
-              -
-          </div></a>
-        </div>
-        <div>
-          <a  id="start_add"  href="#"> <div class="well">
-            <!-- <a id="start_add" href="#"> -->
-              *
-          </div></a>
-        </div>
-        <div>
-          <a  id="start_add"  href="#"> <div class="well">
-            <!-- <a id="start_add" href="#"> -->
-              /
-          </div></a>
+
+      <div class="panel-group" id="accordion">
+          <div class="panel panel-success">
+              <div class="panel-heading">
+                <h5 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse_practice">
+                  练习
+                  </a>
+                </h5>
+              </div>
+              <div id="collapse_practice" class="panel-collapse collapse">
+                <div class="panel-body">
+                  <div class="row placeholders">
+                    <div class="col-xs-6 col-sm-3 placeholder">
+                      <a id="practice_add" role="button" class="btn" data-toggle="modal" title="Click to add more"><i class="glyphicon glyphicon-plus"></i></a>
+                      <a id="practice_minus" role="button" class="btn" data-toggle="modal" title="Click to edit selected row"><i class="glyphicon glyphicon-minus"></i></a>
+                      <a id="practice_multiply" role="button" class="btn" ><i class="glyphicon glyphicon-remove"></i></a>
+                       <a id="practice_divide" role="button" class="btn" ><i class="glyphicon glyphicons-divide"></i></a>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+
+          <div class="panel panel-success">
+              <div class="panel-heading">
+                <h5 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse_challenge">
+                  挑战
+                  </a>
+                </h5>
+              </div>
+              <div id="collapse_challenge" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="col-xs-6 col-sm-3 placeholder">
+                      <a id="challenge_add" role="button" class="btn" data-toggle="modal" align="center"><i class="glyphicon glyphicon-plus"></i></a>
+                      <a id="challenge_minus" role="button" class="btn" data-toggle="modal" ><i class="glyphicon glyphicon-minus"></i></a>
+                      <a id="challenge_multiply" role="button" class="btn" ><i class="glyphicon glyphicon-remove"></i></a>
+                      <a id="challenge_divide" role="button" class="btn" ><i class="icon-divide"></i></a>
+
+                  </div>
+                </div>
+              </div>
+          </div>
         </div>
     </div>
     <vr>
@@ -73,7 +97,10 @@
          <div class="col-12 specific-class">
           <div class="t">
               <div class="tr">
-                <h1>速算 - 加法</h1>
+                <div>
+                  <a id="btnSetup" href="#setup-modal" data-toggle="modal" title="Setup"><span class="glyphicon glyphicon-option-vertical text-success"></span> Setup</a></li>
+                  <h2 id="operation_title">速算 - 加法</h2>
+                </div>
                     <form id='form' class="form-inline">
                       <!-- <input id="start" class="btn btn-success" type="submit" name="start" value="Start"> -->
                       <div class="form-group">
@@ -114,7 +141,7 @@
     <div class="navbar-text pull-left">Copyright @2017 Flask Application</div></div></div></div>
   {% endblock %}
 
-{% block modal_register %}
+{% block modal_login %}
     <!-- Start Modal -->
     <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" xmlns="http://www.w3.org/1999/html">
       <div class="modal-dialog">
@@ -128,7 +155,7 @@
               <div class="form-group">
                 {{login_form.hidden_tag()}}
                 {{login_form.csrf_token }}
-                {{login_form.username.label}} {{login_form.username(size=50)}}
+                {{login_form.username.label}} {{login_form.username(size=50)}}<br>
                 {{login_form.password.label}} {{login_form.password(size=50)}}
                 {{login_form.remember_me.label}} {{login_form.remember_me}}
               </div>
@@ -148,7 +175,7 @@
     <!-- End Modal -->
            {% endblock %}
 
-           {% block modal_login %}
+           {% block modal_register %}
                <!-- Start Modal -->
                <div class="modal fade" id="register-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" xmlns="http://www.w3.org/1999/html">
                  <div class="modal-dialog">
@@ -181,6 +208,38 @@
                <!-- End Modal -->
                       {% endblock %}
 
+    {% block modal_setup %}
+        <!-- Start Modal -->
+        <div class="modal fade" id="setup-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" xmlns="http://www.w3.org/1999/html">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="">Setup</h4>
+              </div>
+              <form id="setup_form" role="form" class="form-horizontal" method="post">
+                <div class="modal-body">
+                  <div class="form-group">
+                    {{ setup_form.csrf_token }}
+                    {{setup_form.digits.label}} {{setup_form.digits(id="digits")}}
+                    {{setup_form.rule.label}} {{setup_form.rule(id="rule")}}
+                    {{setup_form.count_of_numbers.label}} {{setup_form.count_of_numbers(id="count_of_numbers")}}
+                  </div>
+                  </div>
+
+                <div class="modal-footer">
+                  <div class="col-md-6">
+                    <input type="button" value="Save" class="btn btn-default" id="setup"/>
+                    <input type="submit" value="Close" class="btn btn-default" id="setup_close" data-dismiss="modal"/>
+                  </div>
+                  <label class="result"/></br>
+                </div>
+              </form>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+      </div>
+        <!-- End Modal -->
+               {% endblock %}
 
 {% block script %}
 
@@ -201,12 +260,12 @@
   var history_tag_to_insert = ""
 
 $(document).ready(function(){
-  login(),
-  register(),
-  start('#start_add', '/add/rule/1/count_of_numbers/2'),
-  $("#expected_result").html("")
-  $("#expected_result").html("")
-  $('#start_add').click()
+  var url=""
+setup("add", "#setup", "/add/setup", '#practice_add')
+$("#btnSetup").click(function () {
+  $(".result").text("")
+ $("#setup-modal").dialog({modal:true});
+});
   $("#btnLogin").click(function () {
     $(".result").text("")
     $("#login-modal").dialog({modal:true});
@@ -216,6 +275,14 @@ $(document).ready(function(){
     $(".result").text("")
    $("#register-modal").dialog({modal:true});
 });
+  login(),
+  register(),
+  start("add", '#practice_add'),//url),//'/add/rule/1/count_of_numbers/2'),
+  start('minus', '#practice_minus')//, '/minus/rule/1/count_of_numbers/2'),
+  start('multiply', '#practice_multiply')//, '/multiply/rule/1/count_of_numbers/2'),
+  start('divide', '#practice_divide')//, '/divide/rule/1/count_of_numbers/2'),
+  start('add', '#challenge_add')//, '/add/rule/1/count_of_numbers/2'),
+  $("#expected_result").html("")
 
   $(function() {
     username_in_cookie = Cookies.get('username');

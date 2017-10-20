@@ -1,10 +1,30 @@
-function start(operator_tag, url)
+function start(calc_type, operator_tag)
 {
   $(operator_tag).click(function(e){
         $("#expected_result").html("")
         e.preventDefault()
           $('#user_result').val("")
           $('#user_result').focus();
+          var digits = $("#digits").val()
+          var rule = $("#rule").val()
+          var count_of_numbers = $("#count_of_numbers").val()
+          var rule_id = rule.split(":")[0]
+          console.log(count_of_numbers)
+          var url = "/" + calc_type + "/rule/" + rule_id + "/count_of_numbers/" + count_of_numbers + "/digits/" + digits
+          console.log(url)
+          if (calc_type == "add") {
+            $("#operation_title").text("速算 - 加法")
+        }
+          if (operator_tag.indexOf("minus") != -1) {
+            $("#operation_title").text("速算 - 减法")
+          }
+          if (operator_tag.indexOf("multiply") != -1) {
+            $("#operation_title").text("速算 - 乘法")
+          }
+          if (operator_tag.indexOf("divide") != -1) {
+            $("#operation_title").text("速算 - 除法")
+          }
+
         $.ajax({
             url: url, //'/add/rule/1/count_of_numbers/2',
             type: "POST",
@@ -26,7 +46,7 @@ function start(operator_tag, url)
                         $("<div id="+actual_result+"_"+number+">" + history_tag_to_insert +"</div>").insertBefore(history_tag)
                           history_tag = "#"+actual_result+"_"+number
                           console.log("susscess ---" + history_tag)
-                           $('#start_add').click()
+                           $(operator_tag).click()
                        }
                        else{
                          $("#actual_result").html('<font color="Red"><i class="glyphicon glyphicon-remove text-fail"></i></font');
@@ -45,21 +65,54 @@ function start(operator_tag, url)
                     }
 
                 }})
-              } else {
-                  message = ""
-                  if (data.message instanceof Object){
-                    $.each(data.message, function(index, element) {
-                        message += element + "<br>"
-                      });
-                  }
-                  else{
-                    message = data.message
-                  }
-                  $(".result").html('<label class="text-danger"><i class="glyphicon glyphicon-exclamation-sign"> '+message + '</i></label>');
+                } else {
+                    message = ""
+                    if (data.message instanceof Object){
+                      $.each(data.message, function(index, element) {
+                          message += element + "<br>"
+                        });
+                    }
+                    else{
+                      message = data.message
+                    }
+                    $(".result").html('<label class="text-danger"><i class="glyphicon glyphicon-exclamation-sign"> '+message + '</i></label>');
 
-              }
+                }
             })
         })
+}
+
+
+function setup(calc_type, setup_tag, url, start_tag){
+  $(setup_tag).click(function(e){
+    e.preventDefault()
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: 'json',
+        data: $("#setup_form").serialize()
+      }).done( function(data) {
+        $(".result").html('<label class="text-danger"><i class="glyphicon glyphicon-ok text-success"> '+data.message + '</i></label>');
+
+        $("#setup_close").click(function(e){
+          e.preventDefault()
+          console.log(data.url);
+          console.log($("#digits").val())
+          start(calc_type, start_tag)//'/minus/rule/1/count_of_numbers/2'),
+        })
+        return data
+        // console.log(data)
+        // var message = data.message
+        // if (data.success == true) {
+        //   var url = data.url
+        //   var rule_desc= = data.rule_desc
+        //   return [url, rule_desc, message]
+        // }
+        // else{
+        //    return ["", "", message]
+        // }
+      })
+  })
 }
 
 function login(){

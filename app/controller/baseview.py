@@ -41,7 +41,7 @@ def calc(func):
 def add_(*args):
     return sum(args)
 
-def substract_(*args):
+def minus_(*args):
     return functools.reduce(operator.sub, args)
 
 def multiply_(*args):
@@ -52,11 +52,19 @@ def divide_(*args):
 
 def generate_numbers_for_addition(rule_id=1, count_of_numbers=2, max_digits=2):
     numbers_list = []
+    print(count_of_numbers, "--------")
     for i in range(count_of_numbers):
-        number = randint(11, 10 ** max_digits)
+        number = randint(10 * (max_digits -1), 10 ** max_digits)
         numbers_list.append(number)
-    print(numbers_list)
+    print(numbers_list, "-----numbers in list-----")
     return numbers_list
+
+def setup_add(rule):
+    db.session.add(rule)
+    db.session.commit()
+    message = "Saved successfully"
+    status = True
+    return {"message":message, "status":status}
 
 if __name__ == "__main__":
     numbers_list = generate_numbers_for_addition()
@@ -66,5 +74,5 @@ if __name__ == "__main__":
     print(result_mul)
     result_div = divide_(*numbers_list)
     print(result_div)
-    result_sub = substract_(*numbers_list)
+    result_sub = minus_(*numbers_list)
     print(result_sub)

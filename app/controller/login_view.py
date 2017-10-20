@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, abort, request, current_app, session, url_for, redirect, jsonify, g
 # from flask.ext.api import status
 from jinja2 import TemplateNotFound
-from wtf_forms.forms import LoginForm, RegisterForm, WeatherForm
+from wtf_forms.forms import LoginForm, RegisterForm
 from controller.baseview import do_register, validate_user_login
 from models.persister import User
 import json
