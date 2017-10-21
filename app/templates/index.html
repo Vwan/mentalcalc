@@ -118,8 +118,8 @@
                     </div>
                 <hr>
                 <div class="tr">
-                  <h3>计算规则 1</h3>
-                  <p>Lorem ipsum...</p>
+                  <h3>计算规则</h3>
+                  <h4><div id="rule_desc"></div></h4>
                 </div>
             </div>
             </div>
@@ -277,11 +277,12 @@ $("#btnSetup").click(function () {
 });
   login(),
   register(),
-  start("add", '#practice_add'),//url),//'/add/rule/1/count_of_numbers/2'),
-  start('minus', '#practice_minus')//, '/minus/rule/1/count_of_numbers/2'),
-  start('multiply', '#practice_multiply')//, '/multiply/rule/1/count_of_numbers/2'),
-  start('divide', '#practice_divide')//, '/divide/rule/1/count_of_numbers/2'),
-  start('add', '#challenge_add')//, '/add/rule/1/count_of_numbers/2'),
+  start('#practice_add'),//url),//'/add/rule/1/count_of_numbers/2'),
+    $('#practice_add').click()
+  start('#practice_minus')//, '/minus/rule/1/count_of_numbers/2'),
+  start('#practice_multiply')//, '/multiply/rule/1/count_of_numbers/2'),
+  start('#practice_divide')//, '/divide/rule/1/count_of_numbers/2'),
+  start('#challenge_add')//, '/add/rule/1/count_of_numbers/2'),
   $("#expected_result").html("")
 
   $(function() {

@@ -1,4 +1,4 @@
-function start(calc_type, operator_tag)
+function start(operator_tag)
 {
   $(operator_tag).click(function(e){
         $("#expected_result").html("")
@@ -10,21 +10,25 @@ function start(calc_type, operator_tag)
           var count_of_numbers = $("#count_of_numbers").val()
           var rule_id = rule.split(":")[0]
           console.log(count_of_numbers)
-          var url = "/" + calc_type + "/rule/" + rule_id + "/count_of_numbers/" + count_of_numbers + "/digits/" + digits
-          console.log(url)
-          if (calc_type == "add") {
+          if (operator_tag.indexOf("add")) {
             $("#operation_title").text("速算 - 加法")
+            calc_type = "add"
         }
           if (operator_tag.indexOf("minus") != -1) {
             $("#operation_title").text("速算 - 减法")
+            calc_type = "minus"
           }
           if (operator_tag.indexOf("multiply") != -1) {
             $("#operation_title").text("速算 - 乘法")
+            calc_type = "multiply"
           }
           if (operator_tag.indexOf("divide") != -1) {
             $("#operation_title").text("速算 - 除法")
+            calc_type = "divide"
           }
 
+          var url = "/" + calc_type + "/rule/" + rule_id + "/count_of_numbers/" + count_of_numbers + "/digits/" + digits
+          console.log("url is: ",url)
         $.ajax({
             url: url, //'/add/rule/1/count_of_numbers/2',
             type: "POST",
@@ -94,23 +98,14 @@ function setup(calc_type, setup_tag, url, start_tag){
       }).done( function(data) {
         $(".result").html('<label class="text-danger"><i class="glyphicon glyphicon-ok text-success"> '+data.message + '</i></label>');
 
-        $("#setup_close").click(function(e){
+        $('#setup-modal').on('hidden', function (e) {
           e.preventDefault()
           console.log(data.url);
           console.log($("#digits").val())
-          start(calc_type, start_tag)//'/minus/rule/1/count_of_numbers/2'),
-        })
-        return data
-        // console.log(data)
-        // var message = data.message
-        // if (data.success == true) {
-        //   var url = data.url
-        //   var rule_desc= = data.rule_desc
-        //   return [url, rule_desc, message]
-        // }
-        // else{
-        //    return ["", "", message]
-        // }
+          $("#rule_desc").html(data.rule_desc)
+          $(start_tag).click()//'/minus/rule/1/count_of_numbers/2'),
+
+        });
       })
   })
 }
