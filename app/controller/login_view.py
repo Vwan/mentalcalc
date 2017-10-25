@@ -4,7 +4,7 @@ from jinja2 import TemplateNotFound
 from wtf_forms.forms import LoginForm, RegisterForm
 from controller.baseview import do_register, validate_user_login
 from models.persister import User
-import json
+from flask_bootstrap import Bootstrap
 
 bp_login = Blueprint('login_view', __name__, template_folder='templates')
 

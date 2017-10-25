@@ -1,103 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title> 心算强化训练 </title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- <link type="text/css" href="{{url_for('static',filename='bootstrap/css/bootstrap.min.css')}}" rel="stylesheet"/> -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <!-- <link type="text/css" href="{{url_for('static',filename='twitter/css/typeaheadjs.css')}}" rel="stylesheet"/> -->
-  <!-- <link type="text/css" href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/> -->
-  <link type="text/css" href="{{url_for('static',filename='custom/css/app.css')}}" rel="stylesheet"/>
-   <script src="{{url_for('static',filename='jquery/js/jquery.min.js')}}"></script>
+{% extends "bootstrap/base.html" %}
+{% block head %}
+{{ super() }}
+<title> 心算强化训练 </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <link type="text/css" href="{{url_for('static',filename='bootstrap/css/bootstrap.min.css')}}" rel="stylesheet"/> -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- <link type="text/css" href="{{url_for('static',filename='twitter/css/typeaheadjs.css')}}" rel="stylesheet"/> -->
+<!-- <link type="text/css" href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/> -->
+<link type="text/css" href="{{url_for('static',filename='custom/css/app.css')}}" rel="stylesheet"/>
+<script src="{{url_for('static',filename='jquery/js/jquery.min.js')}}"></script>
 
-  <script src="{{url_for('static',filename='jquery/js/js.cookie.js')}}"></script>
-  <script src="{{url_for('static',filename='bootstrap/js/bootstrap.min.js')}}"></script>
-  <!-- <script src="{{url_for('static',filename='jquery/js/jquery.js')}}"></script> -->
-  <script src="{{url_for('static',filename='custom/js/app.js')}}"></script>
+<script src="{{url_for('static',filename='jquery/js/js.cookie.js')}}"></script>
+<script src="{{url_for('static',filename='bootstrap/js/bootstrap.min.js')}}"></script>
+<!-- <script src="{{url_for('static',filename='jquery/js/jquery.js')}}"></script> -->
+<script src="{{url_for('static',filename='custom/js/app.js')}}"></script>
 
-    {% block script %}
-    {% endblock %}
-    <style>
-      /* Remove the navbar's default margin-bottom and rounded borders */
-      .navbar {
-        margin-bottom: 0;
-        border-radius: 0;
-        background-color: #dff0d8;
-        /*Green;*/
-        color: white;
-      }
+{% endblock %}
+{% block navbar %}
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">心算强化训练</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Projects</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
 
-      /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-      row.content {height: 450px}
-      #content {
-          background: white;
-          /*width: 672px;*/
-          float: center;
-          /*margin-right: 20px;*/
-      }
-      #nav, #content, #sidebar {
-          margin-bottom: -9999px;
-          padding-bottom: 9999px;
-      }
-      /* Set gray background color and 100% height */
-      .sidenav {
-        padding-top: 20px;
-        background-color: #f1f1f1;
-        height: 100%;
-      }
+            <ul class="nav navbar-nav navbar-right">
+                <li><a id="btnLogin" href="#login-modal" data-toggle="modal" title="Login"><span
+                        class="glyphicon glyphicon-log-in"></span> Login</a></li>
 
-      /* Set black background color, white text and some padding */
-      footer {
-        background-color: Green;
-        color: white;
-        padding: 15px;
-      }
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a id="btnRegister" href="#register-modal" data-toggle="modal" title="Register"><span
+                        class="glyphicon glyphicon-log-in"></span> Register</a></li>
 
-      .container-fluid {
-        min-height: 100%;
-        overflow: hidden;
-      }
-      /* On small screens, set height to 'auto' for sidenav and grid */
-      @media screen and (max-width: 767px) {
-        .sidenav {
-          height: auto;
-          padding: 15px;
-        }
-        .row.content {height:auto;}
-      }
-      .specific-class .td {
-    width: 50%;
-    background: white;
-    /*rgba(0,0,0,.2);*/
-}
-.t { display: table; height: 100%; width: 100%; }
-.td { display: table-cell; vertical-align: middle; height: 100%; }
-    </style>
-</head>
-<body>
+            </ul>
+        </div>
 
-    {% block header %}
-    {% endblock %}
+    </div>
+</nav>
+{% endblock %}
 
-  {% block modal_login %}
-  {% endblock %}
+{% block content %}
+{% block modal_login %}
+{% endblock %}
 
-  {% block modal_register %}
-  {% endblock %}
+{% block modal_register %}
+{% endblock %}
 
-    {% block modal_setup %}
-    {% endblock %}
-    {% block modal_setup_multiply %}
-    {% endblock %}
+{% block modal_setup %}
+{% endblock %}
+{% block modal_setup_multiply %}
+{% endblock %}
 
 {% block success_message_modal %}
 {% endblock %}
 
-  {% block body %}
-  {% endblock %}
+{% block main %}
+{% endblock %}
 
-  {% block footer %}
-  {% endblock %}
+{% block footer %}
+<div class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+    <div class="navbar-inner">
+        <div class="container">
+            <div class="navbar-text pull-left">Copyright @2017 Flask Application</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
 
-</body>
-</html>
+{% block script %}
+{{ super() }}
+{% endblock %}
+
+{% endblock %}

@@ -5,10 +5,11 @@ class DevelopmentConfig(Config):
     DEVELOPMENT = True
     TESTING = True
     DEBUG = True
-    EXPLAIN_TEMPLATE_LOADING = True
+    EXPLAIN_TEMPLATE_LOADING = False
     TEMPLATE_DEBUG = False
     WTF_CSRF_ENABLED = True
     SECRET_KEY = 'you-will-never-guess'
+    SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     HEFENG_API = {
                 "HELP_FILE": "static/help.txt",
                 "WEATHER_INFO_JSON_FILE": "static/weather_info.json",

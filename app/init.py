@@ -20,3 +20,4 @@ with app.app_context():
     for blueprint_view in blueprint_views:
         app.register_blueprint(blueprint_view)
     # return app
+

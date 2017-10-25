@@ -59,11 +59,16 @@ def generate_numbers_for_addition(rule_id=1, count_of_numbers=2, max_digits=2):
     print(numbers_list, "-----numbers in list-----")
     return numbers_list
 
-def generate_numbers_for_multiply(rule_id=1):
+def generate_numbers_for_multiply(rule_id="M1"):
     numbers_list = []
     if rule_id == "M1":
         number1 = randint(11, 10 ** 2)
         number2 = randint(1,9)
+        numbers_list.append(number1)
+        numbers_list.append(number2)
+    if rule_id == "M2":
+        number1 = randint(11, 10 ** 2)
+        number2 = randint(11, 10 ** 2)
         numbers_list.append(number1)
         numbers_list.append(number2)
     return numbers_list
