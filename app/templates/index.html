@@ -1,13 +1,4 @@
 {% extends "base.html" %}
-<!-- <head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-
-<!-- </head> --> -->
 {% block header %}
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
@@ -98,7 +89,7 @@
           <div class="t">
               <div class="tr">
                 <div>
-                  <a id="btnSetup" href="#setup-modal" data-toggle="modal" title="Setup"><span class="glyphicon glyphicon-option-vertical text-success"></span> Setup</a></li>
+                  <a id="btnSetup" data-toggle="modal" title="Setup"><span class="glyphicon glyphicon-option-vertical text-success"></span> Setup</a></li>
                   <h2 id="operation_title">速算 - 加法</h2>
                 </div>
                     <form id='form' class="form-inline">
@@ -125,6 +116,7 @@
             </div>
         </div>
 
+
 	<div id="sidebar" class="col-lg-3">
 	    <h3>Histories:</h3>
 
@@ -141,6 +133,51 @@
     <div class="navbar-text pull-left">Copyright @2017 Flask Application</div></div></div></div>
   {% endblock %}
 
+{% block success_message_modal %}
+ <a id="btnSuccessMessage" href="#success-message-modal" data-toggle="modal" title="congratuations"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+
+<!--<div class="modal fade" id="success-message-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" xmlns="http://www.w3.org/1999/html">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id=""></h4>
+        </div>
+
+    </div>
+  </div>
+</div> -->
+<div class="modal fade" id="success-message-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" xmlns="http://www.w3.org/1999/html">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="">Sign In</h4>
+      </div>
+      <form id="login_form" role="form" class="form-inline" method="post">
+        <div class="modal-body">
+          <div class="form-group">
+            {{login_form.hidden_tag()}}
+            {{login_form.csrf_token }}
+            {{login_form.username.label}} {{login_form.username(size=50, class="form-control")}}
+            {{login_form.password.label}} {{login_form.password(size=50, class="form-control")}}
+            {{login_form.remember_me.label}} {{login_form.remember_me}}
+          </div>
+          </div>
+
+        <div class="modal-footer">
+          <div class="col-md-6">
+            <input type="button" value="Login" class="btn btn-default" id="login"/>
+            <input type="submit" value="Close" class="btn btn-default" data-dismiss="modal"/>
+          </div>
+          <label class="result"/></br>
+        </div>
+      </form>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
+{% endblock %}
+
 {% block modal_login %}
     <!-- Start Modal -->
     <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" xmlns="http://www.w3.org/1999/html">
@@ -150,13 +187,13 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title" id="">Sign In</h4>
           </div>
-          <form id="login_form" role="form" class="form-horizontal" method="post">
+          <form id="login_form" role="form" class="form-inline" method="post">
             <div class="modal-body">
               <div class="form-group">
                 {{login_form.hidden_tag()}}
                 {{login_form.csrf_token }}
-                {{login_form.username.label}} {{login_form.username(size=50)}}<br>
-                {{login_form.password.label}} {{login_form.password(size=50)}}
+                {{login_form.username.label}} {{login_form.username(size=50, class="form-control")}}
+                {{login_form.password.label}} {{login_form.password(size=50, class="form-control")}}
                 {{login_form.remember_me.label}} {{login_form.remember_me}}
               </div>
               </div>
@@ -184,12 +221,12 @@
                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                        <h4 class="modal-title" id="">Register</h4>
                      </div>
-                     <form id="register_form" role="form" class="form-horizontal" method="post">
+                     <form id="register_form" role="form" class="form-inline" method="post">
                        <div class="modal-body">
                          <div class="form-group">
                            {{ register_form.csrf_token }}
-                           {{register_form.username.label}} {{register_form.username(size=50)}}
-                           {{register_form.password.label}} {{register_form.password(size=50)}}
+                           {{register_form.username.label}} {{register_form.username(size=50, class="form-control")}}
+                           {{register_form.password.label}} {{register_form.password(size=50, class="form-control")}}
                            {{register_form.confirm.label}} {{register_form.confirm}}
                          </div>
                          </div>
@@ -213,26 +250,41 @@
         <div class="modal fade" id="setup-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" xmlns="http://www.w3.org/1999/html">
           <div class="modal-dialog">
             <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="">Setup</h4>
-              </div>
+
               <form id="setup_form" role="form" class="form-horizontal" method="post">
+                  <div class="modal-header">
+                    <div class="form-group">
+                      <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+                      <h3 class="modal-title col-sm-2" id="">Setup</h3>
+
+                      <h4>  <label class="result col-sm-10"/></h4>
+                      </div>
+                    </div>
+
                 <div class="modal-body">
                   <div class="form-group">
                     {{ setup_form.csrf_token }}
-                    {{setup_form.digits.label}} {{setup_form.digits(id="digits")}}
-                    {{setup_form.rule.label}} {{setup_form.rule(id="rule")}}
-                    {{setup_form.count_of_numbers.label}} {{setup_form.count_of_numbers(id="count_of_numbers")}}
-                  </div>
+                    {{setup_form.digits.label(class="control-label col-sm-4", for="digits" )}}
+                     <div class="col-sm-8">{{setup_form.digits(id="digits", class="form-control")}}</div>
+                   </div>
+                       <div class="form-group">
+                         {{setup_form.rule.label(class="control-label col-sm-4")}}
+                          <div class="col-sm-8">{{setup_form.rule(id="rule", class="form-control")}}</div>
+                        </div>
+
+                    <div class="form-group">
+                      {{setup_form.count_of_numbers.label(class="control-label col-sm-4")}}
+                      <div class="col-sm-8">{{setup_form.count_of_numbers(id="count_of_numbers", class="form-control")}}</div>
+                    </div>
                   </div>
 
-                <div class="modal-footer">
-                  <div class="col-md-6">
-                    <input type="button" value="Save" class="btn btn-default" id="setup"/>
-                    <input type="submit" value="Close" class="btn btn-default" id="setup_close" data-dismiss="modal"/>
-                  </div>
-                  <label class="result"/></br>
+                    <div class="modal-footer">
+                      <div class="form-group">
+                          <div class="col-sm-offset-4 col-sm-8">
+                          <input type="button" value="Save" class="btn btn-default" id="setup"/>
+                          <input type="submit" value="Close" class="btn btn-default" id="setup_close" data-dismiss="modal"/>
+                        </div>
+                      </div>
                 </div>
               </form>
           </div><!-- /.modal-content -->
@@ -240,57 +292,161 @@
       </div>
         <!-- End Modal -->
                {% endblock %}
+               {% block modal_setup_multiply %}
+                   <!-- Start Modal -->
+                   <div class="modal fade" id="setup-multiply-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" xmlns="http://www.w3.org/1999/html">
+                     <div class="modal-dialog">
+                       <div class="modal-content">
 
+                         <form id="setup_multiply_form" role="form" class="form-horizontal" method="post">
+                             <div class="modal-header">
+                               <div class="form-group">
+                                 <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+                                 <h3 class="modal-title col-sm-2" id="">Setup</h3>
+
+                                 <h4>  <label class="result col-sm-10"/></h4>
+                                 </div>
+                               </div>
+
+                           <div class="modal-body">
+                               <div class="form-group">
+                                 {{setup_multiply_form.rule.label(class="control-label col-sm-4")}}
+                                  <div class="col-sm-8">{{setup_multiply_form.rule(id="multiply_rule", class="form-control")}}</div>
+                                  <div class="form-group">
+                                    {{ setup_multiply_form.csrf_token }}
+                                  {% if setup_multiply_form.number1 %}  {{setup_multiply_form.number1.label(class="control-label col-sm-4", for="number1" )}}
+
+                                   <div class="col-sm-8">{{setup_multiply_form.number1(id="multiply_number1", class="form-control")}}</div>
+                                   {% endif %}
+
+                                  {% if setup_multiply_form.number2 %}
+                                  {{setup_multiply_form.number2.label(class="control-label col-sm-4", for="number2" )}}
+                                   <div class="col-sm-8">{{setup_multiply_form.number2(id="multiply_number2", class="form-control")}}</div>
+
+                                  {% endif %}
+                                   </div>
+
+                                    <div class="form-group">
+                                    {% if setup_multiply_form.count_of_numbers %}
+                                      {{setup_multiply_form.count_of_numbers.label(class="control-label col-sm-4", for="count_of_numbers" )}}
+                                      <div class="col-sm-8">{{setup_multiply_form.count_of_numbers(id="multiply_count_of_numbers", class="form-control")}}</div>
+
+                                        {% endif %}
+                                      </div>
+                                </div>
+
+                             </div>
+
+                               <div class="modal-footer">
+                                 <div class="form-group">
+                                     <div class="col-sm-offset-4 col-sm-8">
+                                     <input type="button" value="Save" class="btn btn-default" id="setup_multiply"/>
+                                     <input type="submit" value="Close" class="btn btn-default" id="setup_close" data-dismiss="modal"/>
+                                   </div>
+                                 </div>
+                           </div>
+                         </form>
+                     </div><!-- /.modal-content -->
+                   </div><!-- /.modal -->
+                 </div>
+                   <!-- End Modal -->
+                          {% endblock %}
 {% block script %}
 
-    <script type=text/javascript>
+    <!-- <script type=text/javascript>
       $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 
-  </script>
+  </script> -->
 
-  <script src="{{url_for('static',filename='jquery/js/js.cookie.js')}}"></script>
-  <script src="{{url_for('static',filename='jquery/js/jquery.min.js')}}"></script>
-  <script src="{{url_for('static',filename='bootstrap/js/bootstrap.min.js')}}"></script>
-  <!-- <script src="{{url_for('static',filename='jquery/js/jquery.js')}}"></script> -->
-  <script src="{{url_for('static',filename='twitter/js/typeahead.bundle.js')}}"></script>
-  <script src="{{url_for('static',filename='custom/js/app.js')}}"></script>
   <script type="text/javascript">
 
   var history_tag = "#history_add"
   var history_tag_to_insert = ""
-
+//$.noConflict();
 $(document).ready(function(){
   var url=""
-setup("add", "#setup", "/add/setup", '#practice_add')
-$("#btnSetup").click(function () {
-  $(".result").text("")
- $("#setup-modal").dialog({modal:true});
-});
+
+  // Initialize
+  $("#expected_result").html("")
+  $("#btnSetup").attr({
+    "href":"#setup-modal"
+  })
+
+  start_add_minus('#practice_add')
+
+  $("#setup").click(function(e){
+    var operator_type = $("#operation_title").text()
+    if (operator_type.indexOf("加法")){
+      setup("add", '#practice_add')
+    } else if (operator_type.indexOf("减法")){
+      setup("minus", '#practice_minus')
+    }
+  })
+  $("#setup_multiply").click(function(e){
+    var operator_type = $("#operation_title").text()
+    if (operator_type.indexOf("乘法")){
+    setup_multiply("#setup_multiply", '#practice_multiply')
+  } else if (operator_type.indexOf("除法")){
+    setup_multiply("#setup_multiply", '#practice_divide')
+    }
+  })
+
+  $("#btnSetup").click(function () {
+    $(".result").text("")
+    var modalname = $("#btnSetup").attr("href")
+   $(modalname).dialog({modal:true});
+  });
+
+// Login, Register
   $("#btnLogin").click(function () {
     $(".result").text("")
     $("#login-modal").dialog({modal:true});
-});
+  });
+    $("#btnRegister").click(function () {
+      $(".result").text("")
+     $("#register-modal").dialog({modal:true});
+  });
+  $("#login").click(function(e){
+    e.preventDefault(),
+    login()
+  })
+  $("#register").click(function(e){
+      e.preventDefault(),
+      register()
+    })
 
-  $("#btnRegister").click(function () {
-    $(".result").text("")
-   $("#register-modal").dialog({modal:true});
-});
-  login(),
-  register(),
-  start('#practice_add'),//url),//'/add/rule/1/count_of_numbers/2'),
-    $('#practice_add').click()
-  start('#practice_minus')//, '/minus/rule/1/count_of_numbers/2'),
-  start('#practice_multiply')//, '/multiply/rule/1/count_of_numbers/2'),
-  start('#practice_divide')//, '/divide/rule/1/count_of_numbers/2'),
-  start('#challenge_add')//, '/add/rule/1/count_of_numbers/2'),
-  $("#expected_result").html("")
+// Click + - * / buttons to start calc for Practice
+  $('#practice_add').click(function(e){
+    e.preventDefault()
+      start_add_minus('#practice_add')//url),//'/add/rule/1/count_of_numbers/2'),
+  })
+  $('#practice_minus').click(function(e){
+    e.preventDefault()
+      start_add_minus('#practice_minus')//url),//'/add/rule/1/count_of_numbers/2'),
+  })
+  $('#practice_multiply').click(function(e){
+    e.preventDefault()
+      start_multiply('#practice_multiply')//url),//'/add/rule/1/count_of_numbers/2'),
+  })
+  $('#practice_divide').click(function(e){
+    e.preventDefault()
+      start_multiply('#practice_divide')//url),//'/add/rule/1/count_of_numbers/2'),
+  })
 
+  // Check cookies
   $(function() {
     username_in_cookie = Cookies.get('username');
     if (username_in_cookie){
     $("#btnLogin").text("Welcome " + username_in_cookie)
   }
 })
+
+// $("#btnSuccessMessage").click(function () {
+//   $("#success-message-modal").dialog({modal:true});
+//    window.setTimeout(function (){
+//       $("#success-message-modal").dialog('close');
+//    }, 1000)
+// });
 
 })
 

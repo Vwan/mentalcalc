@@ -6,13 +6,13 @@ from api.utils import (load_json_file,
                             show_help)
 import json
 from datetime import datetime
-from models.persister import Rule
+from models.persister import Rule, UserRule
 from controller.baseview import (
                                 generate_numbers_for_addition,
-                                add_, minus_, multiply_, divide_, setup_add
+                                add_, minus_, multiply_, divide_, setup_add, generate_numbers_for_multiply
                                 )
 import time
-from wtf_forms.forms import LoginForm, RegisterForm, SetupForm
+from wtf_forms.forms import LoginForm, RegisterForm, SetupForm, SetupMultiplyForm
 
 bp_calc = Blueprint('calc_view', __name__, template_folder='templates') #, url_prefix="/weather")
 
@@ -27,8 +27,16 @@ def home():
     login_form = LoginForm()
     register_form = RegisterForm()
     setup_form = SetupForm()
+    setup_multiply_form = SetupMultiplyForm()
+    rules = setup_multiply_form.rule.default
+    rule_id = rules.split(":")[0]
+    rule_desc = rules.split(":")[1]
+    if rule_id == "M1":
+        setup_multiply_form.count_of_numbers.data = 2
+        setup_multiply_form.number1.data = 2
+        setup_multiply_form.number2.data = 2
     # weather_form = WeatherForm()
-    return render_template("index.html", login_form=login_form, register_form=register_form, setup_form=setup_form)
+    return render_template("index.html", login_form=login_form, register_form=register_form, setup_form=setup_form, setup_multiply_form=setup_multiply_form)
 
 #@bp_calc.route('/<calc_type>/rule/1/count_of_numbers/2', defaults={"calc_type":"add", "rule_id":"1", "count_of_numbers":"2"}, methods=['POST'])
 @bp_calc.route('/<calc_type>/rule/<rule_id>/count_of_numbers/<count_of_numbers>/digits/<digits>', methods=['POST'])
@@ -42,8 +50,23 @@ def add(calc_type, rule_id, digits, count_of_numbers):
     elif calc_type == "minus":
         suffix = "- "
         expected_result = minus_(*numbers_list)
-    elif calc_type == "multiply":
+    for x in numbers_list:
+        formula += f"{x} " + suffix
+    print(formula, "------")
+    print(expected_result)
+    data = {'success':True, 'status': True , "formula": formula.rstrip(suffix), "expected_result":expected_result,
+              'message': "", 'ContentType':'application/json'}
+    print(data)
+    return json.dumps(data)
+
+@bp_calc.route('/<calc_type>/rule/<rule_id>', methods=['POST'])
+def multiply(calc_type, rule_id):
+    # generate{count_of_numbers} random numbers based on rule_id
+    numbers_list = numbers_list = generate_numbers_for_multiply("M1")#rule_id)
+    formula = suffix = expected_result = ""
+    if calc_type == "multiply":
         suffix = "* "
+        print(numbers_list, "------")
         expected_result = multiply_(*numbers_list)
     elif calc_type == "divide":
         suffix = "/ "
@@ -68,7 +91,11 @@ def setup(calc_type):
     rule_desc = rules.split(":")[1]
     last_updated_on = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     print("rule is: " + rule_desc)
-    rule = Rule(calc_type, rule_id, rule_desc, digits, count_of_numbers, last_updated_on)
+    if not session.get('user_id'):
+        user_id = ""
+    else:
+        user_id = session['user_id']
+    rule = UserRule(calc_type, rule_id, rule_desc, digits, count_of_numbers, last_updated_on, user_id)
     setup_add(rule)
     data = {'success':True, 'status': True , "rule_id":rule_id, "rule_desc": rule_desc, "digits":digits,
             "count_of_numbers":count_of_numbers, "url":f"/{calc_type}/rule/{rule_id}/count_of_numbers/{count_of_numbers}",
@@ -76,7 +103,33 @@ def setup(calc_type):
     print(data)
     return json.dumps(data)
 
-
+@bp_calc.route('/multiply/setup', methods=['POST'])
+def setup_multiply():
+    setup_multiply_form = SetupMultiplyForm()
+    rules = setup_multiply_form.rule.data
+    rule_id = rules.split(":")[0]
+    rule_desc = rules.split(":")[1]
+    count_of_numbers = number1 = number2= ""
+    if rule_id == "M1":
+        count_of_numbers = setup_multiply_form.count_of_numbers.data
+        number1 = setup_multiply_form.number1.data
+        number2 = setup_multiply_form.number2.data
+        print(f"number 1: {number1}")
+        print(f"number 2: {number2}")
+        print(f"count_of_numbers: {count_of_numbers}")
+    last_updated_on = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    print("rule is: " + rule_desc)
+    if not session.get('user_id'):
+        user_id = ""
+    else:
+        user_id = session['user_id']
+    rule = UserRule("multiply", rule_id, rule_desc, f"number1={number1}, number2={number2}", count_of_numbers, last_updated_on, user_id)
+    setup_add(rule)
+    data = {'success':True, 'status': True , "rule_id":rule_id, "rule_desc": rule_desc, "digits":f"number1={number1}, number2={number2}",
+            "count_of_numbers":count_of_numbers, "url":f"/multiply/rule/{rule_id}/count_of_numbers/{count_of_numbers}",
+            'message': "Saved", 'ContentType':'application/json'}
+    print(data)
+    return json.dumps(data)
 # @calc_view.after_request
 # def teardown_():
 #     dbhelper.close_()

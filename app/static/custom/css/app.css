@@ -23,6 +23,9 @@ div {
 .t { display: table; height: 100%; width: 100%; }
 .td { display: table-cell; vertical-align: middle; height: 100%; }
 
+.label-primary {
+    background-color: white;
+}
 
 .navbar {
   margin-bottom: 0;

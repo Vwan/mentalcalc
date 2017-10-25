@@ -5,9 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- <link type="text/css" href="{{url_for('static',filename='bootstrap/css/bootstrap.min.css')}}" rel="stylesheet"/> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link type="text/css" href="{{url_for('static',filename='twitter/css/typeaheadjs.css')}}" rel="stylesheet"/>
+  <!-- <link type="text/css" href="{{url_for('static',filename='twitter/css/typeaheadjs.css')}}" rel="stylesheet"/> -->
   <!-- <link type="text/css" href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/> -->
   <link type="text/css" href="{{url_for('static',filename='custom/css/app.css')}}" rel="stylesheet"/>
+   <script src="{{url_for('static',filename='jquery/js/jquery.min.js')}}"></script>
+
+  <script src="{{url_for('static',filename='jquery/js/js.cookie.js')}}"></script>
+  <script src="{{url_for('static',filename='bootstrap/js/bootstrap.min.js')}}"></script>
+  <!-- <script src="{{url_for('static',filename='jquery/js/jquery.js')}}"></script> -->
+  <script src="{{url_for('static',filename='custom/js/app.js')}}"></script>
 
     {% block script %}
     {% endblock %}
@@ -81,6 +87,11 @@
 
     {% block modal_setup %}
     {% endblock %}
+    {% block modal_setup_multiply %}
+    {% endblock %}
+
+{% block success_message_modal %}
+{% endblock %}
 
   {% block body %}
   {% endblock %}

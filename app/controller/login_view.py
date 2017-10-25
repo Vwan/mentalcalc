@@ -49,6 +49,7 @@ def login_view():
         if validated:
             session['user'] = username
             session['username'] = username
+            session['user_id'] = message
             return jsonify({'username':username, 'success':True, 'status': '200' , 'ContentType':'application/json'} )#, data={"username":username}))
             #return jsonify({'username':username, 'success':True, 'status': '200' , 'ContentType':'application/json'} )#, data={"username":username}))
             # return jsonify(render_template("index.html", login_form=login_form,

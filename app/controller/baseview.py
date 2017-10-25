@@ -11,7 +11,7 @@ def validate_user_login(user):
     print("existing user is: ", existing_user)
     if existing_user:
         if existing_user.password == user.password:
-            return True, existing_user.username
+            return True, existing_user.id
         else:
             return False, "User or Password incorrect, please retry"
     else:
@@ -57,6 +57,15 @@ def generate_numbers_for_addition(rule_id=1, count_of_numbers=2, max_digits=2):
         number = randint(10 * (max_digits -1), 10 ** max_digits)
         numbers_list.append(number)
     print(numbers_list, "-----numbers in list-----")
+    return numbers_list
+
+def generate_numbers_for_multiply(rule_id=1):
+    numbers_list = []
+    if rule_id == "M1":
+        number1 = randint(11, 10 ** 2)
+        number2 = randint(1,9)
+        numbers_list.append(number1)
+        numbers_list.append(number2)
     return numbers_list
 
 def setup_add(rule):

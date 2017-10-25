@@ -1,8 +1,7 @@
-function start(operator_tag)
+function start_add_minus(selector)
 {
-  $(operator_tag).click(function(e){
-        $("#expected_result").html("")
-        e.preventDefault()
+      // $("#actual_result").html('');
+         $("#expected_result").html("")
           $('#user_result').val("")
           $('#user_result').focus();
           var digits = $("#digits").val()
@@ -10,108 +9,162 @@ function start(operator_tag)
           var count_of_numbers = $("#count_of_numbers").val()
           var rule_id = rule.split(":")[0]
           console.log(count_of_numbers)
-          if (operator_tag.indexOf("add")) {
+          $("#rule_desc").text(rule)
+          $("#btnSetup").attr({
+            "href":"#setup-modal"
+          })
+          if (selector.indexOf("add")) {
             $("#operation_title").text("速算 - 加法")
             calc_type = "add"
         }
-          if (operator_tag.indexOf("minus") != -1) {
+          if (selector.indexOf("minus") != -1) {
             $("#operation_title").text("速算 - 减法")
             calc_type = "minus"
           }
-          if (operator_tag.indexOf("multiply") != -1) {
-            $("#operation_title").text("速算 - 乘法")
-            calc_type = "multiply"
-          }
-          if (operator_tag.indexOf("divide") != -1) {
-            $("#operation_title").text("速算 - 除法")
-            calc_type = "divide"
-          }
-
           var url = "/" + calc_type + "/rule/" + rule_id + "/count_of_numbers/" + count_of_numbers + "/digits/" + digits
           console.log("url is: ",url)
         $.ajax({
             url: url, //'/add/rule/1/count_of_numbers/2',
             type: "POST",
             dataType: 'json'
-          }).done( function(data) {
-                  if (data.success == true) { //if your response have 'status' key
-                   console.log(data.formula)
-                   $('#formula').text(data.formula + " =")
+          }).done(function(data){
+            on_finish(data, selector)
+          })
+}
 
-                   $('#user_result').keypress(function (e) {
-                     if (e.which == 13) {
-                    //  $('#add').click(function(e){
-                       actual_result = $('#user_result').val()
-                       e.preventDefault()
-                       var number = 1 + Math.floor(Math.random() * 6);
-                       if (actual_result == data.expected_result){
-                         $("#actual_result").html('<i class="glyphicon glyphicon-ok text-success"></i>');
-                        history_tag_to_insert = '<font color="Green">' + data.formula + "=" + actual_result + '              <span class="glyphicon glyphicon-ok text-success"></span></font><br>'
-                        $("<div id="+actual_result+"_"+number+">" + history_tag_to_insert +"</div>").insertBefore(history_tag)
-                          history_tag = "#"+actual_result+"_"+number
-                          console.log("susscess ---" + history_tag)
-                           $(operator_tag).click()
-                       }
-                       else{
-                         $("#actual_result").html('<font color="Red"><i class="glyphicon glyphicon-remove text-fail"></i></font');
-                         history_tag_to_insert = '<font color="Red">' + data.formula + "=" + actual_result + '              <span class="glyphicon glyphicon-remove text-fail"></span></font><br>'
-                        console.log(history_tag_to_insert)
-                        console.log($(history_tag))
-                          $("<div id="+actual_result+"_"+number+">" + history_tag_to_insert +"</div>").insertBefore(history_tag)
-                          history_tag = "#"+actual_result+"_"+number
-                          $("#expected_result").html('<a id="hint">check answer</a>')
+function start_multiply(selector)
+{
+      // $("#actual_result").html('');
+         $("#expected_result").html("")
+          $('#user_result').val("")
+          $('#user_result').focus();
+          var rule = $("#multiply_rule").val()
+          var count_of_numbers = $("#multiply_count_of_numbers").val()
+          var rule_id = rule.split(":")[0]
+          console.log(count_of_numbers)
+          $("#rule_desc").text(rule)
+          $("#btnSetup").attr({
+            "href":"#setup-multiply-modal"
+          })
+          if (selector.indexOf("multiply") != -1) {
+            $("#operation_title").text("速算 - 乘法")
+            calc_type = "multiply"
+          }
+          if (selector.indexOf("divide") != -1) {
+            $("#operation_title").text("速算 - 除法")
+            calc_type = "divide"
+          }
 
-                            $("#hint").click(function(e){
-                              e.preventDefault()
-                                $("#expected_result").html('<p> Correct answer is: ' + data.expected_result);
-                            })
-
-                    }
-
-                }})
-                } else {
-                    message = ""
-                    if (data.message instanceof Object){
-                      $.each(data.message, function(index, element) {
-                          message += element + "<br>"
-                        });
-                    }
-                    else{
-                      message = data.message
-                    }
-                    $(".result").html('<label class="text-danger"><i class="glyphicon glyphicon-exclamation-sign"> '+message + '</i></label>');
-
-                }
-            })
-        })
+          var url = "/" + calc_type + "/rule/" + rule_id
+          console.log("url is: ",url)
+        $.ajax({
+            url: url, //'/add/rule/1/count_of_numbers/2',
+            type: "POST",
+            dataType: 'json'
+          }).done(function(data){
+            on_finish(data, selector)
+          })
 }
 
 
-function setup(calc_type, setup_tag, url, start_tag){
-  $(setup_tag).click(function(e){
-    e.preventDefault()
+function on_finish(data, selector) {
+      $("#actual_result").html("")
+        if (data.success == true) { //if your response have 'status' key
+         $('#formula').text(data.formula + " =")
+          $('#user_result').unbind() // otherwise keypress will be invoked multiple times
+         $('#user_result').bind("keydown", function (e) {
+           if (e.which == 13) {
+          //  $('#add').click(function(e){
+             actual_result = $('#user_result').val()
+             e.preventDefault()
+             var number = 1 + Math.floor(Math.random() * 6);
+             if (actual_result == data.expected_result){
+
+            //   $("#actual_result").html('<i class="glyphicon glyphicon-ok text-success"></i>');
+                showAlert("#actual_result", "success", '<i class="glyphicon glyphicon-ok text-success"></i>')
+
+              //  $("#btnSuccessMessage").click()
+              //  window.setTimeout(function (){
+              //    alert("congratuations").close()
+              //  }, 1000)
+            //   $('#success_dialog').html("congratulations")
+
+
+              history_tag_to_insert = '<pre><font color="Green">' + data.formula + "=" + actual_result + '              <span class="glyphicon glyphicon-ok text-success"></span></font></pre>'
+            $("<div id="+actual_result+"_"+number+">" + history_tag_to_insert +"</div>").insertBefore(history_tag)
+                history_tag = "#"+actual_result+"_"+number
+                console.log("selector is: " + selector)
+                $(selector).click()
+             }
+             else{
+               $("#actual_result").html('<font color="Red"><i class="glyphicon glyphicon-remove text-fail"></i></font');
+               history_tag_to_insert = '<pre><font color="Red">' + data.formula + "=" + actual_result + '              <span class="glyphicon glyphicon-remove text-fail"></span></font></pre>'
+              $("<div id="+actual_result+"_"+number+">" + history_tag_to_insert +"</div>").insertBefore(history_tag)
+                history_tag = "#"+actual_result+"_"+number
+                $("#expected_result").html('<a id="hint">check answer</a>')
+
+                  $("#hint").click(function(e){
+                    e.preventDefault()
+                      $("#expected_result").html('<p> Correct answer is: ' + data.expected_result);
+                  })
+          }
+      }})
+      } else {
+          message = ""
+          if (data.message instanceof Object){
+            $.each(data.message, function(index, element) {
+                message += element + "<br>"
+              });
+          }
+          else{
+            message = data.message
+          }
+          $(".result").html('<label class="text-danger"><i class="glyphicon glyphicon-exclamation-sign"> '+message + '</i></label>');
+
+      }
+  }
+
+function setup(calc_type, start_selector){
     $.ajax({
-        url: url,
+        url: "/"+calc_type+"/setup",
         type: "POST",
         dataType: 'json',
         data: $("#setup_form").serialize()
       }).done( function(data) {
-        $(".result").html('<label class="text-danger"><i class="glyphicon glyphicon-ok text-success"> '+data.message + '</i></label>');
+        $(".result").html('<label class="result col-sm-10"><i class="glyphicon glyphicon-ok text-success"> '+data.message + '</i></label>');
 
         $('#setup-modal').on('hidden', function (e) {
           e.preventDefault()
           console.log(data.url);
           console.log($("#digits").val())
           $("#rule_desc").html(data.rule_desc)
-          $(start_tag).click()//'/minus/rule/1/count_of_numbers/2'),
+          $(start_selector).click()//'/minus/rule/1/count_of_numbers/2'),
 
         });
       })
-  })
-}
+  }
+
+function setup_multiply(start_selector){
+    $.ajax({
+        url: "/multiply/setup",
+        type: "POST",
+        dataType: 'json',
+        data: $("#setup_multiply_form").serialize()
+      }).done( function(data) {
+        $(".result").html('<label class="result col-sm-10"><i class="glyphicon glyphicon-ok text-success"> '+data.message + '</i></label>');
+
+        $('#setup-multiply-modal').on('hidden', function (e) {
+          e.preventDefault()
+          console.log(data.url);
+          console.log($("#digits").val())
+          $("#rule_desc").html(data.rule_desc)
+          $(start_selector).click()//'/minus/rule/1/count_of_numbers/2'),
+
+        });
+      })
+  }
 
 function login(){
-  $('#login').click(function(){
         $.ajax({
             url: '/login',
             type: "POST",
@@ -120,13 +173,16 @@ function login(){
           }).done( function(data) {
             console.log(data)
                   if (data.success == true) { //if your response have 'status' key
-                   alert("Welcome" + data.username +", redicting you...", 2)
+                  $(".result").html('<label class="text-danger"><i class="glyphicon glyphicon-ok text-success">Loged In</i></label>');
+                  $('#login-modal').on('hidden', function (e) {
+                    e.preventDefault()
                    $(function() {
                           // $.session.set("username", data.username);
                         Cookies.set("username", data.username)
                         });
                    window.location.href = "/"
-                } else {
+                })
+              } else {
                   message = ""
                   if (data.message instanceof Object){
                     $.each(data.message, function(index, element) {
@@ -140,11 +196,9 @@ function login(){
 
               }
             })
-        });
-}
+        }
 
 function register(){
-  $('#register').click(function(){
         $.ajax({
             url: '/register',
             type: "POST",
@@ -152,14 +206,16 @@ function register(){
             data: $("#register_form").serialize()
           }).done( function(data) {
                 if (data.success == true) { //if your response have 'status' key
-                   alert("Registered Successfully, Please login", 2)
-                   $(function() {
-                      $("#regsiter-modal").dialog({modal:false});
-                        });
-                   $(function() {
-                      $("#login-modal").dialog({modal:true});
-                        });
-                } else {
+                   console.log("Registered Successfully, Please login", 2)
+                   $(".result").html('<label class="text-danger"><i class="glyphicon glyphicon-ok text-success"> '+data.message + '</i></label>');
+
+                   $('#register-modal').on('hidden', function (e) {
+                     e.preventDefault()
+                     $(function() {
+                        $("#login-modal").dialog({modal:true});
+                          });
+                        })
+              } else {
                   message = ""
                   if (data.message instanceof Object){
                     $.each(data.message, function(index, element) {
@@ -173,5 +229,15 @@ function register(){
 
               }
             })
-        });
+        }
+
+function showAlert(containerId, alertType, message) {
+    $(containerId).append('<p><div id="temp" class="alert alert-' + alertType + '" id="alert' + containerId + '">' + message + '</div>');
+    $("#alert" + containerId).alert();
+    // window.setTimeout(function () { $("#alert" + containerId).alert('close'); }, 1000);
+    window.setTimeout(function() {
+         $("#temp").fadeTo(500, 0).slideUp(500, function(){
+             $(this).remove();
+         });
+     }, 2000);
 }
