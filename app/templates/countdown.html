@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../static/jquery/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../static/jquery.countdownTimer.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/jquery.countdownTimer.css"/>
+
+    <div id="countdowntimer"><span id="future_date"></span></div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            {
+                $(function () {
+                    $('#ms_timer').countdowntimer({
+                        dateAndTime: "2020/01/01 00:00:00",
+                        size: "lg"
+                    });
+                });
+            }
+        })
+    </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -8,16 +8,16 @@ function start_add_minus(selector) {
     var count_of_numbers = $("#count_of_numbers").val()
     var rule_id = rule.split(":")[0]
     console.log(count_of_numbers)
-    $("#rule_desc").text(rule)
+    $("#rule_desc").html(rule)
     $("#btnSetup").attr({
         "href": "#setup-modal"
     })
     if (selector.indexOf("add")) {
-        $("#operation_title").text("速算 - 加法")
+        $("#operation_title").text("速算：加法")
         calc_type = "add"
     }
     if (selector.indexOf("minus") != -1) {
-        $("#operation_title").text("速算 - 减法")
+        $("#operation_title").text("速算：减法")
         calc_type = "minus"
     }
     var url = "/" + calc_type + "/rule/" + rule_id + "/count_of_numbers/" + count_of_numbers + "/digits/" + digits
@@ -40,16 +40,16 @@ function start_multiply(selector) {
     var count_of_numbers = $("#multiply_count_of_numbers").val()
     var rule_id = rule.split(":")[0]
     console.log("rule id is: " + rule_id)
-    $("#rule_desc").text(rule)
+    $("#rule_desc").html(rule)
     $("#btnSetup").attr({
         "href": "#setup-multiply-modal"
     })
     if (selector.indexOf("multiply") != -1) {
-        $("#operation_title").text("速算 - 乘法")
+        $("#operation_title").text("速算：乘法")
         calc_type = "multiply"
     }
     if (selector.indexOf("divide") != -1) {
-        $("#operation_title").text("速算 - 除法")
+        $("#operation_title").text("速算：除法")
         calc_type = "divide"
     }
 
@@ -67,11 +67,14 @@ function start_multiply(selector) {
 
 function on_finish(data, selector) {
     $("#actual_result").html("")
+    var start_time = new Date().getTime();
     if (data.success == true) { //if your response have 'status' key
-        $('#formula').text(data.formula + " =")
+        $('#formula').text(data.formula + " = ")
         $('#user_result').unbind() // otherwise keypress will be invoked multiple times
         $('#user_result').bind("keydown", function (e) {
             if (e.which == 13) {
+                 var end_time = new Date().getTime();
+                 var duration = (end_time - start_time) / 1000;
                 //  $('#add').click(function(e){
                 actual_result = $('#user_result').val()
                 e.preventDefault()
@@ -79,7 +82,7 @@ function on_finish(data, selector) {
                 if (actual_result == data.expected_result) {
 
                     //   $("#actual_result").html('<i class="glyphicon glyphicon-ok text-success"></i>');
-                    showAlert("#actual_result", "success", '<i class="glyphicon glyphicon-ok text-success"></i>')
+                    showAlert("#actual_result", "success", '<i class="glyphicon glyphicon-ok text-success">用时：' + duration + '</i>')
 
                     //  $("#btnSuccessMessage").click()
                     //  window.setTimeout(function (){
@@ -88,22 +91,22 @@ function on_finish(data, selector) {
                     //   $('#success_dialog').html("congratulations")
 
 
-                    history_tag_to_insert = '<pre><font color="Green">' + data.formula + "=" + actual_result + '              <span class="glyphicon glyphicon-ok text-success"></span></font></pre>'
+                    history_tag_to_insert = '<pre><font color="Green">' + data.formula + " = " + actual_result + '              <span class="glyphicon glyphicon-ok text-success"></span> <span> 用时：' + duration + 's</span></font></pre>'
                     $("<div id=" + actual_result + "_" + number + ">" + history_tag_to_insert + "</div>").insertBefore(history_tag)
                     history_tag = "#" + actual_result + "_" + number
                     console.log("selector is: " + selector)
                     $(selector).click()
                 }
                 else {
-                    $("#actual_result").html('<font color="Red"><i class="glyphicon glyphicon-remove text-fail"></i></font');
-                    history_tag_to_insert = '<pre><font color="Red">' + data.formula + "=" + actual_result + '              <span class="glyphicon glyphicon-remove text-fail"></span></font></pre>'
+                    $("#actual_result").html('<br><font color="Red"><i class="glyphicon glyphicon-remove text-fail"></i></font');
+                    history_tag_to_insert = '<pre><font color="Red">' + data.formula + " = " + actual_result + '              <span class="glyphicon glyphicon-remove text-fail"></span></font></pre>'
                     $("<div id=" + actual_result + "_" + number + ">" + history_tag_to_insert + "</div>").insertBefore(history_tag)
                     history_tag = "#" + actual_result + "_" + number
-                    $("#expected_result").html('<a id="hint">check answer</a>')
+                    $("#expected_result").html('<h4><a id="hint">查看正确答案</a></h4>')
 
                     $("#hint").click(function (e) {
                         e.preventDefault()
-                        $("#expected_result").html('<p> Correct answer is: ' + data.expected_result);
+                        $("#expected_result").html('<h4><p> 正确答案是: ' + data.expected_result + '</h4>');
                     })
                 }
             }
@@ -135,8 +138,8 @@ function setup(calc_type, start_selector) {
         $("#rule_desc").html(data.rule_summary + "<br>" + data.rule_desc)
         $("#setup_close").click(function (e) {
             e.preventDefault()
-            $("#rule_desc").html(data.rule_desc)
-            start_add_minus(start_selector)
+            $("#rule_desc").html(data.rule_summary + "<br>" + data.rule_desc)
+            $(start_selector).click()
         })
 
         // $('#setup-modal').on('hidden', function (e) {
@@ -185,7 +188,7 @@ function login() {
     }).done(function (data) {
         console.log(data)
         if (data.success == true) { //if your response have 'status' key
-            $(".result").html('<label class="text-danger"><i class="glyphicon glyphicon-ok text-success">Loged In</i></label>');
+            $(".result").html('<label class="text-danger"><i class="glyphicon glyphicon-ok text-success">登录成功</i></label>');
             $("#login_close").click(function (e) {
                 e.preventDefault()
                 Cookies.set("username", data.username)
@@ -256,5 +259,13 @@ function showAlert(containerId, alertType, message) {
         $("#temp").fadeTo(500, 0).slideUp(500, function () {
             $(this).remove();
         });
-    }, 2000);
+    }, 3000);
+}
+
+function countdowntimer() {
+        $("#ms_timer").countdowntimer({
+            minutes: 20,
+            seconds: 10,
+            size: "lg"
+        });
 }

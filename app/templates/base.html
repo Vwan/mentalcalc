@@ -1,48 +1,44 @@
 {% extends "bootstrap/base.html" %}
 {% block head %}
 {{ super() }}
-<title> 心算强化训练 </title>
+<!--{% block title %} 心算强化训练  {% endblock %}-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- <link type="text/css" href="{{url_for('static',filename='bootstrap/css/bootstrap.min.css')}}" rel="stylesheet"/> -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<!-- <link type="text/css" href="{{url_for('static',filename='twitter/css/typeaheadjs.css')}}" rel="stylesheet"/> -->
-<!-- <link type="text/css" href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/> -->
+<link type="text/css" href="{{url_for('static',filename='bootstrap/css/bootstrap.min.css')}}" rel="stylesheet"/>
 <link type="text/css" href="{{url_for('static',filename='custom/css/app.css')}}" rel="stylesheet"/>
+<link type="text/css" href="{{url_for('static',filename='jquery.countdownTimer.css')}}" rel="stylesheet"/>
 <script src="{{url_for('static',filename='jquery/js/jquery.min.js')}}"></script>
 
-<script src="{{url_for('static',filename='jquery/js/js.cookie.js')}}"></script>
 <script src="{{url_for('static',filename='bootstrap/js/bootstrap.min.js')}}"></script>
-<!-- <script src="{{url_for('static',filename='jquery/js/jquery.js')}}"></script> -->
+<script src="{{url_for('static',filename='jquery/js/js.cookie.js')}}"></script>
+<script src="{{url_for('static', filename='jquery.countdownTimer.js')}}"></script>
 <script src="{{url_for('static',filename='custom/js/app.js')}}"></script>
-
 {% endblock %}
 {% block navbar %}
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+            <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">-->
+            <!--<span class="icon-bar"></span>-->
+            <!--<span class="icon-bar"></span>-->
+            <!--<span class="icon-bar"></span>-->
+            <!--</button>-->
             <a class="navbar-brand" href="#">心算强化训练</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Projects</a></li>
-                <li><a href="#">Contact</a></li>
+                <li class="active"><a href="#">主页</a></li>
+                <li><a href="#">关于</a></li>
+                <li><a href="#">联系</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
                 <li><a id="btnLogin" href="#login-modal" data-toggle="modal" title="Login"><span
-                        class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                        class="glyphicon glyphicon-log-in"></span> 登录</a></li>
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a id="btnRegister" href="#register-modal" data-toggle="modal" title="Register"><span
-                        class="glyphicon glyphicon-log-in"></span> Register</a></li>
+                        class="glyphicon glyphicon-registration-mark"></span> 注册</a></li>
 
             </ul>
         </div>
@@ -50,7 +46,6 @@
     </div>
 </nav>
 {% endblock %}
-
 {% block content %}
 {% block modal_login %}
 {% endblock %}
@@ -70,7 +65,7 @@
 {% endblock %}
 
 {% block footer %}
-<div class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+<div id="footer" class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
     <div class="navbar-inner">
         <div class="container">
             <div class="navbar-text pull-left">Copyright @2017 Flask Application</div>

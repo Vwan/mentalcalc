@@ -13,21 +13,21 @@ def validate_user_login(user):
         if existing_user.password == user.password:
             return True, existing_user.id
         else:
-            return False, "User or Password incorrect, please retry"
+            return False, "用户名或密码不正确"
     else:
-        return False,  "user doesn't exist, please register first"
+        return False,  "用户不存在，请先注册"
 
 def do_register(user):
     # check if user exists
     existing_user = User.query.filter_by(username=user.username).first()
     print("---existing user---", existing_user)
     if existing_user:
-        message = "User already exists, please login"
+        message = "用户已存在，请登录"
         status = False
     else:
         db.session.add(user)
         db.session.commit()
-        message = "Registered successfully, please login"
+        message = "注册成功，请登录"
         status = True
     return {"message":message, "status":status}
 
@@ -76,7 +76,7 @@ def generate_numbers_for_multiply(rule_id="M1"):
 def setup_add(rule):
     db.session.add(rule)
     db.session.commit()
-    message = "Saved successfully"
+    message = "保存成功"
     status = True
     return {"message":message, "status":status}
 

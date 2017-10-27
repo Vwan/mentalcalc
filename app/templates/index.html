@@ -11,7 +11,7 @@
                     <div class="panel-heading">
                         <h5 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse_practice">
-                                练习
+                                <h2>练习</h2>
                             </a>
                         </h5>
                     </div>
@@ -33,12 +33,12 @@
                         </div>
                     </div>
                 </div>
-
+                <br>
                 <div class="panel panel-success">
                     <div class="panel-heading">
                         <h5 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse_challenge">
-                                挑战
+                                <h2>挑战</h2>
                             </a>
                         </h5>
                     </div>
@@ -61,76 +61,52 @@
         </div>
         <div id="content" class="col-lg-7 text-center">
             <div class="col-12 specific-class">
-                <div class="t">
-                    <div class="tr">
-                        <div>
-                            <a id="btnSetup" data-toggle="modal" title="Setup"><span
-                                    class="glyphicon glyphicon-option-vertical text-success"></span> Setup</a></li>
-                            <h2 id="operation_title">速算：加法</h2>
-                        </div>
-                        <form id='form' class="form-inline">
-                            <!-- <input id="start" class="btn btn-success" type="submit" name="start" value="Start"> -->
-                            <div class="form-group">
-                                <h3><label id="formula" for="add"></label></h3>
-                                <input id="user_result" name="add" placeholder="" autofocus>
-                                <!-- <input id="add" class="btn btn-success" type="button" name="add" value="Submit"> -->
+                <form id='form' class="form-horizontal">
 
-                                <div id="actual_result"></div>
+                    <div class="form-group">
+                        <h1>
+                            <div class="text-center">
+                                <a id="btnSetup" data-toggle="modal" title="Setup"><span id="operation_title"
+                                                                                         class="glyphicon glyphicon-option-vertical text-success">速算：加法</span>
+                                </a>
+                                <div id="countdowntimer"><span id="ms_timer"></span></div>
                             </div>
-                            <div id="expected_result">
-                                <a id="hint"></a>
-                            </div>
-                            <!-- style="display:none"> -->
-                        </form>
+                        </h1>
+                        <br>
                     </div>
-                    <hr>
-                    <div class="tr">
-                        <h3>计算规则</h3>
+                    <!-- <input id="start" class="btn btn-success" type="submit" name="start" value="Start"> -->
+                    <div class="form-group">
+                        <h1><label id="formula" for="add"></label></h1><br>
+                        <input id="user_result" name="add" placeholder="" autofocus>
+                        <!-- <input id="add" class="btn btn-success" type="button" name="add" value="Submit"> -->
+
+                        <div id="actual_result"></div>
+                    </div>
+                    <div id="expected_result">
+                        <a id="hint"></a>
+                    </div>
+                    <br><br>
+                    <div>
+                        <h1>计算规则</h1>
+                        <br></br>
                         <h4>
-                            <div id="rule_desc"></div>
+                            <div id="rule_desc" class="text-justify col-lg-offset-4"></div>
                         </h4>
                     </div>
-                </div>
+
+                    <!-- style="display:none"> -->
+                </form>
             </div>
         </div>
+    </div>
 
 
-        <div id="sidebar" class="col-lg-3">
-            <h3>Histories:</h3>
+    <div id="sidebar" class="col-lg-3">
+        <h2>历史记录:</h2><br>
 
-            <div id="history_add"></div>
-        </div>
+        <div id="history_add"></div>
     </div>
 </div>
-{% endblock %}
-
-
-{% block success_message_modal %}
-<a id="btnSuccessMessage" href="#success-message-modal" data-toggle="modal" title="congratuations"><span
-        class="glyphicon glyphicon-log-in"></span> Login</a></li>
-
-<!--<div class="modal fade" id="success-message-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" xmlns="http://www.w3.org/1999/html">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id=""></h4>
-        </div>
-
-    </div>
-  </div>
-</div> -->
-<div class="modal fade" id="success-message-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"
-     xmlns="http://www.w3.org/1999/html">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="">Sign In</h4>
-            </div>
-
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
 </div>
 {% endblock %}
 
@@ -142,15 +118,16 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <div class="form-group">
-                        <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-                        <h3 class="modal-title col-sm-2">Sign In</h3>
-
-                        <h4><label class="result col-sm-10"/></h4>
-                    </div>
-            </div>
-            <form id="login_form" role="form" class="form-inline" method="post">
                 <div class="form-group">
+                    <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+                    <h2 class="modal-title col-sm-2">登录</h2>
+
+                    <h4><label class="result col-sm-10"/></h4>
+                </div>
+            </div>
+            <form id="login_form" role="form" class="form-horizontal" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
                         {{ login_form.csrf_token }}
                         <div class="form-group">
                             {{ login_form.csrf_token }}
@@ -161,31 +138,32 @@
                             </div>
                         </div>
 
-                            <div class="form-group">
-                                {{login_form.password.label(class="control-label col-sm-3", for="password" )}}
-                                <div class="col-sm-8">{{login_form.password(id="password",
-                                    class="form-control")}}
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                {{login_form.remember_me.label(class="control-label col-sm-3",
-                                for="remember_me" )}}
-                                <div class="col-sm-8">{{login_form.remember_me(id="remember_me",
-                                    class="form-control")}}
-                                </div>
+                        <div class="form-group">
+                            {{login_form.password.label(class="control-label col-sm-3", for="password" )}}
+                            <div class="col-sm-8">{{login_form.password(id="password",
+                                class="form-control")}}
                             </div>
                         </div>
-                    </div>
 
+                        {#
+                        <div class="form-group">
+                            {{login_form.remember_me.label(class="control-label col-sm-3",
+                            for="remember_me" )}}
+                            {{login_form.remember_me(id="remember_me",
+                            class="form-control")}}
+                        </div>
+                        #}
+                    </div>
+                </div>
                 <div class="modal-footer">
                     <div class="form-group">
                         <div class="col-sm-offset-4 col-sm-8">
-                            <input type="button" value="Save" class="btn btn-default" id="login"/>
-                            <input type="submit" value="Close" class="btn btn-default" id="login_close"
+                            <input type="button" value="登录" class="btn btn-default" id="login"/>
+                            <input type="submit" value="关闭" class="btn btn-default" id="login_close"
                                    data-dismiss="modal"/>
                         </div>
                     </div>
+                </div>
             </form>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
@@ -201,12 +179,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <div class="form-group">
-                        <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-                        <h3 class="modal-title col-sm-2">Register</h3>
+                <div class="form-group">
+                    <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+                    <h2 class="modal-title col-sm-2">注册</h2>
 
-                        <h4><label class="result col-sm-10"/></h4>
-                    </div>
+                    <h4><label class="result col-sm-10"/></h4>
+                </div>
             </div>
             <form id="register_form" role="form" class="form-horizontal" method="post">
                 <div class="modal-body">
@@ -221,28 +199,28 @@
                             </div>
                         </div>
 
-                            <div class="form-group">
-                                {{register_form.password.label(class="control-label col-sm-3", for="password" )}}
-                                <div class="col-sm-8">{{register_form.password(id="password",
-                                    class="form-control")}}
-                                </div>
+                        <div class="form-group">
+                            {{register_form.password.label(class="control-label col-sm-3", for="password" )}}
+                            <div class="col-sm-8">{{register_form.password(id="password",
+                                class="form-control")}}
                             </div>
+                        </div>
 
-                            <div class="form-group">
-                                {{register_form.confirm.label(class="control-label col-sm-3",
-                                for="confirm" )}}
-                                <div class="col-sm-8">{{register_form.confirm(id="confirm",
-                                    class="form-control")}}
-                                </div>
+                        <div class="form-group">
+                            {{register_form.confirm.label(class="control-label col-sm-3",
+                            for="confirm" )}}
+                            <div class="col-sm-8">{{register_form.confirm(id="confirm",
+                                class="form-control")}}
                             </div>
                         </div>
                     </div>
+                </div>
 
                 <div class="modal-footer">
                     <div class="form-group">
                         <div class="col-sm-offset-4 col-sm-8">
-                            <input type="button" value="Save" class="btn btn-default" id="register"/>
-                            <input type="submit" value="Close" class="btn btn-default" id="close"
+                            <input type="button" value="注册" class="btn btn-default" id="register"/>
+                            <input type="submit" value="关闭" class="btn btn-default" id="close"
                                    data-dismiss="modal"/>
                         </div>
                     </div>
@@ -265,7 +243,7 @@
                 <div class="modal-header">
                     <div class="form-group">
                         <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-                        <h3 class="modal-title col-sm-2">Setup</h3>
+                        <h2 class="modal-title col-sm-2">设置</h2>
 
                         <h4><label class="result col-sm-10"/></h4>
                     </div>
@@ -293,8 +271,8 @@
                 <div class="modal-footer">
                     <div class="form-group">
                         <div class="col-sm-offset-4 col-sm-8">
-                            <input type="button" value="Save" class="btn btn-default" id="setup"/>
-                            <input type="submit" value="Close" class="btn btn-default" id="setup_close"
+                            <input type="button" value="保存" class="btn btn-default" id="setup"/>
+                            <input type="submit" value="关闭" class="btn btn-default" id="setup_close"
                                    data-dismiss="modal"/>
                         </div>
                     </div>
@@ -316,7 +294,7 @@
                 <div class="modal-header">
                     <div class="form-group">
                         <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-                        <h3 class="modal-title col-sm-2" id="">Setup</h3>
+                        <h2 class="modal-title col-sm-2" id="">设置</h2>
 
                         <h4><label class="result col-sm-10"/></h4>
                     </div>
@@ -327,46 +305,15 @@
                         {{setup_multiply_form.rule.label(class="control-label col-sm-4")}}
                         <div class="col-sm-8">{{setup_multiply_form.rule(id="multiply_rule", class="form-control")}}
                         </div>
-                        {#
-                        <div class="form-group">
-                            {{ setup_multiply_form.csrf_token }}
-                            {% if setup_multiply_form.number1 %}
-                            {{setup_multiply_form.number1.label(class="control-label col-sm-4", for="number1" )}}
 
-                            <div class="col-sm-8">{{setup_multiply_form.number1(id="multiply_number1",
-                                class="form-control")}}
-                            </div>
-                            {% endif %}
-
-                            {% if setup_multiply_form.number2 %}
-                            {{setup_multiply_form.number2.label(class="control-label col-sm-4", for="number2" )}}
-                            <div class="col-sm-8">{{setup_multiply_form.number2(id="multiply_number2",
-                                class="form-control")}}
-                            </div>
-
-                            {% endif %}
-                        </div>
-
-                        <div class="form-group">
-                            {% if setup_multiply_form.count_of_numbers %}
-                            {{setup_multiply_form.count_of_numbers.label(class="control-label col-sm-4",
-                            for="count_of_numbers" )}}
-                            <div class="col-sm-8">{{setup_multiply_form.count_of_numbers(id="multiply_count_of_numbers",
-                                class="form-control")}}
-                            </div>
-
-                            {% endif %}
-                            #}
-                        </div>
                     </div>
-
                 </div>
 
                 <div class="modal-footer">
                     <div class="form-group">
                         <div class="col-sm-offset-4 col-sm-8">
-                            <input type="button" value="Save" class="btn btn-default" id="setup_multiply"/>
-                            <input type="submit" value="Close" class="btn btn-default" id="setup_multiply_close"
+                            <input type="button" value="保存" class="btn btn-default" id="setup_multiply"/>
+                            <input type="submit" value="关闭" class="btn btn-default" id="setup_multiply_close"
                                    data-dismiss="modal"/>
                         </div>
                     </div>
@@ -379,15 +326,17 @@
 {% endblock %}
 {% block script %}
 
-
 <script type="text/javascript">
-
+//    $("#ms_timer").countdowntimer({
+//			minutes : 20,
+//		        seconds : 10,
+//		        size : "lg"
+//		});
     var history_tag = "#history_add"
     var history_tag_to_insert = ""
     //$.noConflict();
     $(document).ready(function () {
         var url = ""
-
         // Initialize
         $("#expected_result").html("")
         $("#btnSetup").attr({
@@ -413,11 +362,35 @@
             start_multiply('#practice_divide')//url),//'/add/rule/1/count_of_numbers/2'),
         })
 
+// Click + - * / buttons to start calc for Challenge
+        $('#challenge_add').click(function (e) {
+           // countdowntimer()
+            $("#ms_timer").countdowntimer({
+            minutes: 20,
+            seconds: 10,
+            size: "lg"
+        });
+            e.preventDefault()
+            start_add_minus('#challenge_add')//url),//'/add/rule/1/count_of_numbers/2'),
+        })
+        $('#challenge_minus').click(function (e) {
+            e.preventDefault()
+            start_add_minus('#challenge_minus')//url),//'/add/rule/1/count_of_numbers/2'),
+        })
+        $('#challenge_multiply').click(function (e) {
+            e.preventDefault()
+            start_multiply('#challenge_multiply')//url),//'/add/rule/1/count_of_numbers/2'),
+        })
+        $('#challenge_divide').click(function (e) {
+            e.preventDefault()
+            start_multiply('#challenge_divide')//url),//'/add/rule/1/count_of_numbers/2'),
+        })
+
         // Check cookies
         $(function () {
             username_in_cookie = Cookies.get('username');
             if (username_in_cookie) {
-                $("#btnLogin").text("Welcome " + username_in_cookie)
+                $("#btnLogin").text("欢迎 " + username_in_cookie)
             }
         })
 
@@ -478,5 +451,3 @@
 </script>
 
 {% endblock %}
-</body>
-</html>

@@ -103,7 +103,7 @@ def setup(calc_type):
     setup_add(rule)
     data = {'success':True, 'status': True , "rule_id":rule_id, "rule_desc": rule_desc, "digits":digits,
             "count_of_numbers":count_of_numbers, "url":f"/{calc_type}/rule/{rule_id}/count_of_numbers/{count_of_numbers}",
-            'message': "Saved", 'ContentType':'application/json'}
+            'message': "保存成功", 'ContentType':'application/json'}
     print(data)
     return json.dumps(data)
 
@@ -131,13 +131,13 @@ def setup_multiply():
     else:
         user_id = session['user_id']
     rule_in_db = Rule.query.filter_by(rule_id=rule_id).first()
-    desc = Markup(rule_in_db.rule_desc)
+    desc = rule_in_db.rule_desc
     print("--rule desc--", desc, rule_summary)
     user_rule = UserRule("multiply", rule_id, rule_summary, f"number1={number1}, number2={number2}", count_of_numbers, last_updated_on, user_id)
     setup_add(user_rule)
     data = {'success':True, 'status': True , "rule_id":rule_id, "rule_summary":rule_summary, "rule_desc":desc, "digits":f"number1={number1}, number2={number2}",
             "count_of_numbers":count_of_numbers, "url":f"/multiply/rule/{rule_id}/count_of_numbers/{count_of_numbers}",
-            'message': "Saved", 'ContentType':'application/json'}
+            'message': "保存成功", 'ContentType':'application/json'}
     print(data)
     return json.dumps(data)
 # @calc_view.after_request
