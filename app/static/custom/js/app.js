@@ -3,9 +3,9 @@ function start_add_minus(selector) {
     $("#expected_result").html("")
     $('#user_result').val("")
     $('#user_result').focus();
-    var digits = $("#digits").val()
+    var digits = $("#setup_digits").val()
     var rule = $("#rule").val()
-    var count_of_numbers = $("#count_of_numbers").val()
+    var count_of_numbers = $("#setup_count_of_numbers").val()
     var rule_id = rule.split(":")[0]
     console.log(count_of_numbers)
     $("#rule_desc").html(rule)
@@ -73,8 +73,8 @@ function on_finish(data, selector) {
         $('#user_result').unbind() // otherwise keypress will be invoked multiple times
         $('#user_result').bind("keydown", function (e) {
             if (e.which == 13) {
-                 var end_time = new Date().getTime();
-                 var duration = (end_time - start_time) / 1000;
+                var end_time = new Date().getTime();
+                var duration = (end_time - start_time) / 1000;
                 //  $('#add').click(function(e){
                 actual_result = $('#user_result').val()
                 e.preventDefault()
@@ -127,6 +127,7 @@ function on_finish(data, selector) {
 }
 
 function setup(calc_type, start_selector) {
+    get_user_rule_setting(calc_type)
     $.ajax({
         url: "/" + calc_type + "/setup",
         type: "POST",
@@ -154,6 +155,7 @@ function setup(calc_type, start_selector) {
 }
 
 function setup_multiply(calc_type, start_selector) {
+    get_user_rule_setting(calc_type)
     $.ajax({
         url: "/" + calc_type + "/setup",
         type: "POST",
@@ -176,6 +178,18 @@ function setup_multiply(calc_type, start_selector) {
         //     $(start_selector).click()//'/minus/rule/1/count_of_numbers/2'),
         //
         // });
+    })
+}
+
+function get_user_rule_setting(calc_type) {
+    $.ajax({
+        url: "/" + calc_type + "/setup",
+        type: "GET"
+    }).done(function (data) {
+        console.log(data)
+        $("#setup_digits").text(data.digits)
+        //    $("#rule").text(data.rule_id + ":" + data.rule_summary)
+        $("#setup_count_of_numbers").text(data.count_of_numbers)
     })
 }
 
@@ -263,9 +277,9 @@ function showAlert(containerId, alertType, message) {
 }
 
 function countdowntimer() {
-        $("#ms_timer").countdowntimer({
-            minutes: 20,
-            seconds: 10,
-            size: "lg"
-        });
+    $("#ms_timer").countdowntimer({
+        minutes: 20,
+        seconds: 10,
+        size: "lg"
+    });
 }

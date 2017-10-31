@@ -13,6 +13,7 @@ bp_login = Blueprint('login_view', __name__, template_folder='templates')
 history = {}
 login_html = "login/login.html"
 
+
 # @login_form_wtf.route("/login", methods=['GET'])
 # @login_form_wtf.route('/', methods=['GET'])
 # def login():
@@ -32,6 +33,7 @@ def register():
     #                     "form": form})
     return render_template("login/register.html", form=form)
 
+
 @bp_login.route('/login', methods=['POST'])
 def login_view():
     login_form = LoginForm()
@@ -50,18 +52,17 @@ def login_view():
             session['user'] = username
             session['username'] = username
             session['user_id'] = message
-            return jsonify({'username':username, 'success':True, 'status': '200' , 'ContentType':'application/json'} )#, data={"username":username}))
-            #return jsonify({'username':username, 'success':True, 'status': '200' , 'ContentType':'application/json'} )#, data={"username":username}))
-            # return jsonify(render_template("index.html", login_form=login_form,
-            # #                     success=True, status=200, username=username))
-        #     return jsonify(render_template("index.html", login_form=login_form, register_form=RegisterForm(),
-        #                        data={'success':True, 'status': '200' , 'ContentType':'application/json'}))
+            return jsonify({'username': username, 'success': True, 'status': '200',
+                            'ContentType': 'application/json'})
         else:
-            return jsonify({'success':False, 'status': '500' , "message": {'message': message}, 'ContentType':'application/json'} )#, data={"username":username}))
+            return jsonify({'success': False, 'status': '500', "message": {'message': message},
+                            'ContentType': 'application/json'})  # , data={"username":username}))
     else:
-        print(login_form.errors,".........")
+        print(login_form.errors, ".........")
         # return jsonify(render_template("index.html", login_form=login_form, data={"message":login_form.errors}))
-        return jsonify({'success':False, 'status': '500' , "message": login_form.errors, 'ContentType':'application/json'} )#, data={"username":username}))
+        return jsonify({'success': False, 'status': '500', "message": login_form.errors,
+                        'ContentType': 'application/json'})  # , data={"username":username}))
+
 
 @bp_login.route('/register', methods=['POST'])
 def register_view():
@@ -76,10 +77,13 @@ def register_view():
         print(result)
         print(result.get('message'), "---message---")
         if result.get('status'):
-            return jsonify({'username':username, 'success':True, 'status': '200' , "message": result.get('message'), 'ContentType':'application/json'} )#, data={"username":username}))
+            return jsonify({'username': username, 'success': True, 'status': '200', "message": result.get('message'),
+                            'ContentType': 'application/json'})  # , data={"username":username}))
         else:
-            return jsonify({'username':username, 'success':False, 'status': '500' , "message": result.get('message'), 'ContentType':'application/json'} )#, data={"username":username}))
+            return jsonify({'username': username, 'success': False, 'status': '500', "message": result.get('message'),
+                            'ContentType': 'application/json'})  # , data={"username":username}))
 
     else:
         print("validation message: ", register_form.errors)
-        return jsonify({'success':False, 'status': '500' , "message": register_form.errors, 'ContentType':'application/json'} )#, data={"username":username}))
+        return jsonify({'success': False, 'status': '500', "message": register_form.errors,
+                        'ContentType': 'application/json'})  # , data={"username":username}))

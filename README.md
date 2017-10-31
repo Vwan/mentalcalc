@@ -1,13 +1,16 @@
 # 心算强化训练
 
+## 简介：
+
 项目名称: 心算强化训练
 
-项目概述: 看过最强大脑后，一直有个心念锻炼下大脑，年纪大了记忆力吓退的很。手机上下载过若干app，总觉得缺点什么。我希望程序做到：针对不同的心算规则，随机生成数字，大量强化训练该规则的心算。我需要收集的是：对于各种算法操作（加减乘除等），各自有哪些心算规则。这会是一个慢慢积累的过程。
+项目概述: 针对不同的心算规则，随机生成数字，大量强化训练该规则的心算。
 
 MVP：
 
     实现两位数的加减乘除，心算规则至少2个
-    校验用户心算结果，如计算错误，给出建议的计算步骤
+    校验用户心算结果，如计算错误，给出正确答案
+    记录用户计算历史以及用时
     登陆/注册
 
 进阶：
@@ -16,6 +19,12 @@ MVP：
     调出用户错误计算的算法，允许其复习，并更正历史
     计时器
     将算法操作分等级：low, high, medium 等
+
+## MVP 使用
+
+百度云盘链接: https://pan.baidu.com/s/1hs4CsVa 密码: 44nx
+
+[![](https://github.com/Vwan/mentalcalc/blob/master/app/resources/pic.png?raw=true)](https://github.com/Vwan/mentalcalc/blob/master/app/resources/pic.png?raw=true)
 
 参考
 http://www.momonix.com/calc/

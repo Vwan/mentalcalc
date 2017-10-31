@@ -253,7 +253,7 @@
                     <div class="form-group">
                         {{ setup_form.csrf_token }}
                         {{setup_form.digits.label(class="control-label col-sm-4", for="digits" )}}
-                        <div class="col-sm-8">{{setup_form.digits(id="digits", class="form-control")}}</div>
+                        <div class="col-sm-8">{{setup_form.digits(id="setup_digits", class="form-control")}}</div>
                     </div>
                     <div class="form-group">
                         {{setup_form.rule.label(class="control-label col-sm-4")}}
@@ -262,7 +262,7 @@
 
                     <div class="form-group">
                         {{setup_form.count_of_numbers.label(class="control-label col-sm-4")}}
-                        <div class="col-sm-8">{{setup_form.count_of_numbers(id="count_of_numbers",
+                        <div class="col-sm-8">{{setup_form.count_of_numbers(id="setup_count_of_numbers",
                             class="form-control")}}
                         </div>
                     </div>
@@ -339,6 +339,9 @@
         var url = ""
         // Initialize
         $("#expected_result").html("")
+        get_user_rule_setting("add")
+        get_user_rule_setting("multiply")
+
         $("#btnSetup").attr({
             "href": "#setup-modal"
         })
@@ -389,6 +392,7 @@
         // Check cookies
         $(function () {
             username_in_cookie = Cookies.get('username');
+            console.log(username_in_cookie)
             if (username_in_cookie) {
                 $("#btnLogin").text("欢迎 " + username_in_cookie)
             }
@@ -438,12 +442,7 @@
         })
 
 
-// $("#btnSuccessMessage").click(function () {
-//   $("#success-message-modal").dialog({modal:true});
-//    window.setTimeout(function (){
-//       $("#success-message-modal").dialog('close');
-//    }, 1000)
-// });
+
 
     })
 
